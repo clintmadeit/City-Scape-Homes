@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-color: rgb(241, 245, 241);
+}
+
 .logo-img {
   width: 200px;
   display: flex;
@@ -44,3 +48,6 @@
 }
 
 /* navigation menu styles ends */
+.border {
+  border: 1px solid rgb(241, 245, 241);
+}

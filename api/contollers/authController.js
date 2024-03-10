@@ -15,8 +15,17 @@ export const signup = async (req, res, next) => {
   }
 };
 
+function validateEmail(email) {
+  const re =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
+  if (email && !validateEmail(email)) {
+    return next(errorHandler(400, "Invalid email format!"));
+  }
   try {
     const validUser = await User.findOne({ email });
     if (!validUser) return next(errorHandler(404, "Invalid credentials!"));

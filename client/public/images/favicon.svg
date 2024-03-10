@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="1000" height="1000"><rect width="1000" height="1000" rx="350" ry="350" fill="#ffffff"></rect><g transform="matrix(3.125,0,0,3.125,50,168.81625129699705)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="288" height="210.21"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 288 210.21">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 5px;
+      }
+
+      .cls-2 {
+        fill: #ff5f1f;
+      }
+    </style>
+  </defs>
+  <g>
+    <circle class="cls-1" cx="144" cy="106.39" r="100.61"></circle>
+    <g>
+      <rect x="76.08" y="39.44" width="51.03" height="51.03"></rect>
+      <rect class="cls-2" x="160.88" y="39.44" width="51.04" height="51.03"></rect>
+      <rect class="cls-2" x="76.08" y="119.74" width="51.03" height="51.03"></rect>
+      <rect x="160.88" y="119.74" width="51.04" height="51.03"></rect>
+    </g>
+  </g>
+</svg></svg></g></svg>

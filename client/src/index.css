@@ -51,3 +51,12 @@ body {
 .border {
   border: 1px solid rgb(241, 245, 241);
 }
+
+/* create listing page styling starts */
+.border-bg {
+  border-color: #d1d5db;
+}
+
+.border-bg2 {
+  border-color: #047857;
+}

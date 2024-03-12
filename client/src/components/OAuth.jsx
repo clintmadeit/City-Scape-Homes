@@ -35,7 +35,7 @@ export default function OAuth() {
     <button
       onClick={handleGoogleClick}
       type="button"
-      className="bg-red-700 text-white font-semibold uppercase p-3 rounded-lg hover:opacity-95"
+      className="bg-red-700 text-white uppercase p-3 rounded-lg hover:opacity-95"
     >
       Continue with google
     </button>

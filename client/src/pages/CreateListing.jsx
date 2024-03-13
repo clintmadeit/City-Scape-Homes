@@ -41,7 +41,7 @@ export default function CreateListing() {
               <span>Rent</span>
             </div>
             <div className="flex gap-2">
-              <input type="checkbox" id="parking" className="w-5" />
+              <input type="checkbox" id="parking" className="w-5 border" />
               <span>Parking spot</span>
             </div>
             <div className="flex gap-2">

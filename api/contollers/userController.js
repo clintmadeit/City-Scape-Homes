@@ -1,6 +1,7 @@
 import bcryptjs from "bcryptjs";
 import User from "../models/userModel.js";
 import { errorHandler } from "../utils/error.js";
+import Listing from "../models/listingModel.js";
 
 export const test = (req, res) => {
   res.send("API route is properly working!");
@@ -41,6 +42,22 @@ export const deleteUser = async (req, res, next) => {
     await User.findByIdAndDelete(req.params.id);
     res.clearCookie("access_token");
     res.status(200).json("Account has been deleted!");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserListings = async (req, res, next) => {
+  if (req.user.id !== req.params.id)
+    return next(
+      errorHandler(
+        401,
+        "You can only view listings associated to your account!"
+      )
+    );
+  try {
+    const listings = await Listing.find({ userRef: req.params.id });
+    res.status(200).json(listings);
   } catch (error) {
     next(error);
   }

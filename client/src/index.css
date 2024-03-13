@@ -46,6 +46,31 @@ body {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
+.title-underline {
+  position: relative;
+}
+
+/* listing title style on profile page starts */
+
+.title-underline::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #1434a4;
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+.title-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* listing title style on profile page ends */
 
 /* navigation menu styles ends */
 .border {

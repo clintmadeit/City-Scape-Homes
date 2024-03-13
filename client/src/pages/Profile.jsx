@@ -20,6 +20,7 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import "../index.css";
 
 export default function Profile() {
   const fileRef = useRef(null);
@@ -28,7 +29,9 @@ export default function Profile() {
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
+  const [showListingsError, setShowListingsError] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -120,6 +123,21 @@ export default function Profile() {
     }
   };
 
+  const handleShowListings = async () => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === "false") {
+        setShowListingsError(true);
+        return;
+      }
+      setUserListings(data);
+    } catch (error) {
+      setShowListingsError(true);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -200,6 +218,45 @@ export default function Profile() {
       <p className="text-green-700 mt-5">
         {updateSuccess ? "User has been updated successfully!" : ""}
       </p>
+      <button onClick={handleShowListings} className="text-green-700 w-full ">
+        Show Listings
+      </button>
+      <p className="text-red-700 mt-5">
+        {showListingsError ? "Error fetching listings!" : ""}
+      </p>
+
+      {userListings && userListings.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h1 className="text-center mt-7 text-2xl font-semibold">
+            Your Listings
+          </h1>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className=" border border-bg rounded-lg p-3 flex justify-between items-center gap-3 mt-3"
+            >
+              <Link to={`/listing/$(listing._id)`}>
+                <img
+                  src={listing.imageUrls[0]}
+                  alt="listing cover"
+                  className="h-16 w-16 object-contain"
+                />
+              </Link>
+              <Link
+                className="text-egyptianblue font-semibold title-underline truncate flex-1"
+                to={`/listing/$(listing._id)`}
+              >
+                <p>{listing.title}</p>
+              </Link>
+
+              <div className="flex flex-col items-center">
+                <button className="text-red-700 uppercase">Delete</button>
+                <button className="text-green-700 uppercase">Edit</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

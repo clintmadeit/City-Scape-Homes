@@ -1,9 +1,13 @@
 import express from "express";
-import { createListing } from "../contollers/listingController.js";
+import {
+  createListing,
+  deleteListing,
+} from "../contollers/listingController.js";
 import { verifyToken } from "../utils/verifyUser.js";
 
 const router = express.Router();
 
 router.post("/create", verifyToken, createListing);
+router.delete("/delete/:id", verifyToken, deleteListing);
 
 export default router;

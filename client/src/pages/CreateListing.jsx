@@ -71,7 +71,7 @@ export default function CreateListing() {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
+          console.log(`Upload is ${Math.round(progress)}% done`);
         },
         (error) => {
           reject(error);
@@ -99,6 +99,7 @@ export default function CreateListing() {
         type: e.target.id,
       });
     }
+
     if (
       e.target.id === "parking" ||
       e.target.id === "furnished" ||
@@ -109,6 +110,7 @@ export default function CreateListing() {
         [e.target.id]: e.target.checked,
       });
     }
+
     if (
       e.target.type === "number" ||
       e.target.type === "text" ||
@@ -125,12 +127,11 @@ export default function CreateListing() {
     e.preventDefault();
     try {
       if (formData.imageUrls.length < 1)
-        return setError("You must upload atleast 1 image");
+        return setError("You must upload at least one image");
       if (+formData.regularPrice < +formData.discountedPrice)
-        return setError("Discounted price must be lower than regular price");
+        return setError("Discount price must be lower than regular price");
       setLoading(true);
       setError(false);
-      // Send formData to backend
       const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: {
@@ -146,16 +147,12 @@ export default function CreateListing() {
       if (data.success === false) {
         setError(data.message);
       }
-      if (data.success === true) {
-        navigate(`/listing/${data.listing._id}`);
-      }
+      navigate(`/listing/${data._id}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
     }
   };
-
-  console.log(formData);
 
   return (
     <main className="p-3 max-w-4xl mx-auto">
@@ -281,11 +278,13 @@ export default function CreateListing() {
                 required
                 className="p-3 border border-bg rounded-lg"
                 onChange={handleChange}
-                value={+formData.regularPrice}
+                value={formData.regularPrice}
               />
               <div className="flex flex-col items-center">
                 <p>Regular Price</p>
-                <span className="text-xs">(Ksh/month)</span>
+                {formData.type === "rent" && (
+                  <span className="text-xs">(Ksh / month)</span>
+                )}
               </div>
             </div>
             {formData.offer && (
@@ -298,11 +297,14 @@ export default function CreateListing() {
                   required
                   className="p-3 border border-bg rounded-lg"
                   onChange={handleChange}
-                  value={+formData.discountedPrice}
+                  value={formData.discountedPrice}
                 />
                 <div className="flex flex-col items-center">
                   <p>Discounted Price</p>
-                  <span className="text-xs">(Ksh/month)</span>
+
+                  {formData.type === "rent" && (
+                    <span className="text-xs">($ / month)</span>
+                  )}
                 </div>
               </div>
             )}
@@ -333,7 +335,9 @@ export default function CreateListing() {
               {uploading ? "Uploading..." : "Upload"}
             </button>
           </div>
-          <p className="text-red-700">{imageUploadError && imageUploadError}</p>
+          <p className="text-red-700 text-sm">
+            {imageUploadError && imageUploadError}
+          </p>
           {formData.imageUrls.length > 0 &&
             formData.imageUrls.map((url, index) => (
               <div

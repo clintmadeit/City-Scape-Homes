@@ -138,9 +138,9 @@ export default function Profile() {
     }
   };
 
-  const handleDeleteListing = async (id) => {
+  const handleDeleteListing = async (listingId) => {
     try {
-      const res = await fetch(`/api/listing/delete/${id}`, {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -148,7 +148,9 @@ export default function Profile() {
         console.log(data.message);
         return;
       }
-      setUserListings((prev) => prev.filter((listing) => listing._id !== id));
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
     } catch (error) {
       console.log(error.message);
     }
@@ -251,7 +253,7 @@ export default function Profile() {
               key={listing._id}
               className=" border border-bg rounded-lg p-3 flex justify-between items-center gap-3 mt-3"
             >
-              <Link to={`/listing/$(listing._id)`}>
+              <Link to={`/listing/${listing._id}`}>
                 <img
                   src={listing.imageUrls[0]}
                   alt="listing cover"
@@ -260,7 +262,7 @@ export default function Profile() {
               </Link>
               <Link
                 className="text-egyptianblue font-semibold title-underline truncate flex-1"
-                to={`/listing/$(listing._id)`}
+                to={`/listing/${listing._id}`}
               >
                 <p>{listing.title}</p>
               </Link>
@@ -272,7 +274,9 @@ export default function Profile() {
                 >
                   Delete
                 </button>
-                <button className="text-green-700 uppercase">Edit</button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className="text-green-700 uppercase">Edit</button>
+                </Link>
               </div>
             </div>
           ))}

@@ -4,10 +4,7 @@ import { errorHandler } from "../utils/error.js";
 export const createListing = async (req, res, next) => {
   try {
     const listing = await Listing.create(req.body);
-    res.status(201).json({
-      success: true,
-      listing,
-    });
+    return res.status(201).json(listing);
   } catch (error) {
     next(error);
   }
@@ -40,26 +37,32 @@ export const updateListing = async (req, res, next) => {
   }
 
   if (listing.userRef !== req.user.id) {
-    return next(
-      errorHandler(
-        401,
-        "You can only update listings associate to your account!"
-      )
-    );
+    return next(errorHandler(401, "You can only update your own listings!"));
   }
 
   try {
     const updatedListing = await Listing.findByIdAndUpdate(
       req.params.id,
-      req.body,
       {
-        new: true,
-        runValidators: true,
-      }
+        $set: req.body,
+      },
+      { new: true }
     );
+    res.status(200).json(updatedListing);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getListing = async (req, res, next) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+    if (!listing) {
+      return next(errorHandler(404, "Listing not found!"));
+    }
     res.status(200).json({
       success: true,
-      updatedListing,
+      listing,
     });
   } catch (error) {
     next(error);

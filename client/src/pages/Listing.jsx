@@ -13,6 +13,7 @@ import {
   FaParking,
   FaChair,
 } from "react-icons/fa";
+import Contact from "../components/Contact";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -135,9 +136,9 @@ export default function Listing() {
             {currentUser && listing.userRef !== currentUser._id && !contact && (
               <button
                 onClick={() => setContact(true)}
-                className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3"
+                className="bg-egyptianblue text-white rounded-lg uppercase hover:opacity-95 p-3"
               >
-                Contact landlord
+                Contact management
               </button>
             )}
             {contact && <Contact listing={listing} />}

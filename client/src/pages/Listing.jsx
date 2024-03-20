@@ -103,7 +103,11 @@ export default function Listing() {
               </p>
               {listing.offer && (
                 <p className="bg-egyptianblue w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                  Ksh. {+listing.regularPrice - +listing.discountedPrice} OFF!
+                  Ksh.{" "}
+                  {(
+                    +listing.regularPrice - +listing.discountedPrice
+                  ).toLocaleString()}{" "}
+                  OFF!
                 </p>
               )}
             </div>

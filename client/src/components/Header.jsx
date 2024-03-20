@@ -7,7 +7,7 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   return (
     <header className="bg-slate-200 shadow-md">
-      <div className="flex justify-between items-center max-w-6xl mx-auto p-1">
+      <div className="flex justify-between items-center max-w-6xl mx-auto">
         <Link to={"/"}>
           <img src="../images/logo.png" alt="Logo" className="logo-img" />
         </Link>

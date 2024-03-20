@@ -9,9 +9,9 @@ body {
 }
 
 .logo-img {
-  width: 200px;
   display: flex;
   flex-wrap: wrap;
+  width: 140px;
 }
 
 /* navigation menu styles starts */

@@ -6,11 +6,11 @@ import { initializeApp } from "firebase/app";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: "black-oak-realty-8d306.firebaseapp.com",
-  projectId: "black-oak-realty-8d306",
-  storageBucket: "black-oak-realty-8d306.appspot.com",
-  messagingSenderId: "554225712113",
-  appId: "1:554225712113:web:52d8c01a2a44ada6dee250",
+  authDomain: "city-scape-homes.firebaseapp.com",
+  projectId: "city-scape-homes",
+  storageBucket: "city-scape-homes.appspot.com",
+  messagingSenderId: "573669809421",
+  appId: "1:573669809421:web:18cc735218980619296444",
 };
 
 // Initialize Firebase

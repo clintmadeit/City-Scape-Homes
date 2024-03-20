@@ -7,8 +7,8 @@ export default {
       current: "currentColor",
       white: "#ffffff",
       black: "#000000",
-      neonorange: "#FF5F1F",
-      egyptianblue: "#1434A4",
+      neonorange: "#F49D19",
+      egyptianblue: "#0E2F4F",
       slate: {
         100: "#F3F4F6",
         200: "#E5E7EB",

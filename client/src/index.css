@@ -17,12 +17,12 @@ body {
 /* navigation menu styles starts */
 
 .nav-menu:hover {
-  color: #ff5f1f;
+  color: #f49d19;
   transition: 0.25s;
 }
 
 .nav-menu > :active {
-  color: #ff5f1f;
+  color: #f49d19;
 }
 .menu-underline {
   position: relative;
@@ -60,7 +60,7 @@ body {
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: #1434a4;
+  background-color: #0e2f4f;
   transform-origin: bottom right;
   transition: transform 0.3s ease-out;
 }
@@ -83,9 +83,5 @@ body {
   border-color: #d1d5db;
 }
 .border-bg1 {
-  border-color: #ff5f1f;
-}
-
-.border-bg2 {
-  border-color: #047857;
+  border-color: #f49d19;
 }

@@ -38,17 +38,13 @@ export default function Contact({ listing }) {
           </p>
           <textarea
             className="w-full p-3 border border-bg rounded-lg"
-            placeholder="Enter your message here"
+            placeholder="Enter your message here..."
             name="message"
             id="message"
             rows="2"
             value={message}
             onChange={onChange}
-          >
-            {`Hi ${
-              management.userName
-            }, I am interested in your ${listing.title.toLowerCase()} listing. Please contact me `}
-          </textarea>
+          ></textarea>
           <Link
             className="bg-egyptianblue text-white p-3 uppercase hover:opacity-95 rounded-lg text-center"
             to={`mailto:${management.email}?subject=Regarding ${listing.title}&body=${message}`}

@@ -11,7 +11,7 @@ body {
 .logo-img {
   display: flex;
   flex-wrap: wrap;
-  width: 140px;
+  width: 100px;
 }
 
 /* navigation menu styles starts */

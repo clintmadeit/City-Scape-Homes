@@ -106,7 +106,7 @@ export default function Listing() {
                   Ksh.{" "}
                   {(
                     +listing.regularPrice - +listing.discountedPrice
-                  ).toLocaleString()}{" "}
+                  ).toLocaleString("en-US")}{" "}
                   OFF!
                 </p>
               )}

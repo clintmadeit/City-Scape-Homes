@@ -29,7 +29,11 @@ export default function Header() {
     <header className="bg-slate-200 shadow-md p-3">
       <div className="flex justify-between items-center max-w-6xl mx-auto">
         <Link to={"/"}>
-          <img src="../images/logo.png" alt="Logo" className="logo-img" />
+          <img
+            src="../images/city_scape_logo.png"
+            alt="Logo"
+            className="logo-img"
+          />
         </Link>
         <form
           onSubmit={handleSubmit}
@@ -46,7 +50,7 @@ export default function Header() {
             <FaSearch className="text-neonorange" />
           </button>
         </form>
-        <ul className="flex gap-4 cursor-pointer">
+        <ul className="flex gap-4 cursor-pointer font-semibold">
           <Link to={"/"}>
             <li className="hidden sm:inline nav-menu menu-underline">Home</li>
           </Link>

@@ -47,6 +47,12 @@ export default function Listing() {
     fetchListing();
   }, [params.listingId]);
 
+  function formatNumber(num) {
+    return num >= 1e6
+      ? (num / 1e6).toFixed(1) + "M"
+      : num.toLocaleString("en-US");
+  }
+
   return (
     <main>
       {loading && <p className="text-center my-7 text-2xl">Loading...</p>}
@@ -88,9 +94,9 @@ export default function Listing() {
           <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
             <p className="text-2xl text-black font-semibold">
               {listing.title} - Ksh{" "}
-              {listing.offer
-                ? listing.discountedPrice.toLocaleString("en-US")
-                : listing.regularPrice.toLocaleString("en-US")}
+              {formatNumber(
+                listing.offer ? listing.discountedPrice : listing.regularPrice
+              )}
               {listing.type === "rent" && " / month"}
             </p>
             <p className="flex items-center mt-6 gap-2 text-slate-600  text-sm">
@@ -103,10 +109,10 @@ export default function Listing() {
               </p>
               {listing.offer && (
                 <p className="bg-egyptianblue w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                  Ksh.{" "}
-                  {(
+                  Ksh{" "}
+                  {formatNumber(
                     +listing.regularPrice - +listing.discountedPrice
-                  ).toLocaleString("en-US")}{" "}
+                  )}{" "}
                   OFF!
                 </p>
               )}

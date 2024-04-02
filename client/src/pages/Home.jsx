@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 import SwiperCore from "swiper";
 import ListingCard from "../components/ListingCard";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -12,8 +13,7 @@ export default function Home() {
   const [rentListings, setRentListings] = useState([]);
 
   SwiperCore.use([Navigation]);
-
-  console.log(saleListings);
+  SwiperCore.use([Autoplay]);
 
   useEffect(() => {
     const fetchOfferListings = async () => {
@@ -75,7 +75,10 @@ export default function Home() {
 
       {/* slider */}
 
-      <Swiper navigation>
+      <Swiper
+        navigation
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
+      >
         {offerListings &&
           offerListings.length > 0 &&
           offerListings.map((listing) => (
@@ -86,7 +89,6 @@ export default function Home() {
                   backgroundSize: "cover",
                 }}
                 className="h-[500px]"
-                key={listing._id}
               ></div>
             </SwiperSlide>
           ))}
@@ -156,6 +158,7 @@ export default function Home() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

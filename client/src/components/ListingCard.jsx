@@ -2,6 +2,12 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
 
+function formatNumber(num) {
+  return num >= 1e6
+    ? (num / 1e6).toFixed(1) + "M"
+    : num.toLocaleString("en-US");
+}
+
 export default function ListingCard({ listing }) {
   return (
     <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[260px]">
@@ -26,10 +32,10 @@ export default function ListingCard({ listing }) {
             {listing.description}
           </p>
           <p className="text-egyptianblue mt-2 font-semibold">
-            Ksh.
-            {listing.offer
-              ? listing.discountedPrice.toLocaleString("en-US")
-              : listing.regularPrice.toLocaleString("en-US")}
+            Ksh{" "}
+            {formatNumber(
+              listing.offer ? listing.discountedPrice : listing.regularPrice
+            )}
             {listing.type === "rent" && " / month"}
           </p>
           <div className="text-neonorange flex gap-4">
@@ -45,15 +51,13 @@ export default function ListingCard({ listing }) {
             </div>
           </div>
           <div className="flex flex-col gap-4">
-            <div className="bg-neonorange text-white text-center p-1 rounded-md">
+            <div className="bg-neonorange text-white text-center font-semibold p-1 rounded-md">
               {listing.type === "rent" ? "For Rent" : "For Sale"}
             </div>
             {listing.offer && (
-              <div className="bg-egyptianblue text-white text-center p-1 rounded-md">
-                Ksh.
-                {(
-                  +listing.regularPrice - +listing.discountedPrice
-                ).toLocaleString("en-US")}{" "}
+              <div className="bg-egyptianblue text-white text-center font-semibold p-1 rounded-md">
+                Ksh{" "}
+                {formatNumber(+listing.regularPrice - +listing.discountedPrice)}{" "}
                 OFF!
               </div>
             )}

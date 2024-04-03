@@ -32,7 +32,7 @@ export default function Header() {
           <img
             src="../images/city_scape_logo.png"
             alt="Logo"
-            className="logo-img"
+            className="logo-img hover: filter hover:brightness-110"
           />
         </Link>
         <form

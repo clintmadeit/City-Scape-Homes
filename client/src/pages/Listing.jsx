@@ -14,6 +14,7 @@ import {
   FaChair,
 } from "react-icons/fa";
 import Contact from "../components/Contact";
+import Footer from "../components/Footer";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -155,6 +156,7 @@ export default function Listing() {
           </div>
         </>
       )}
+      <Footer />
     </main>
   );
 }

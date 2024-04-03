@@ -8,6 +8,7 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -367,6 +368,7 @@ export default function CreateListing() {
           {error && <p className="text-red-700">{error}</p>}
         </div>
       </form>
+      <Footer />
     </main>
   );
 }

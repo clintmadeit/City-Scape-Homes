@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingCard from "../components/ListingCard";
+import Footer from "../components/Footer";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -129,139 +130,142 @@ export default function Search() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row">
-      <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-          <div className="flex items-center gap-2">
-            <label className="whitespace-nowrap font-semibold text-egyptianblue">
-              Search Term:
-            </label>
-            <input
-              type="text"
-              id="searchTerm"
-              placeholder="search..."
-              className="border border-bg rounded-lg p-3 w-full"
-              value={sidebarData.searchTerm}
-              onChange={handleSearch}
-            />
-          </div>
-          <div className="flex gap-2 flex-wrap items-center">
-            <label className="font-semibold text-egyptianblue">Type:</label>
-            <div className="flex gap-2">
+    <section>
+      <div className="flex flex-col md:flex-row">
+        <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+            <div className="flex items-center gap-2">
+              <label className="whitespace-nowrap font-semibold text-egyptianblue">
+                Search Term:
+              </label>
               <input
-                type="checkbox"
-                id="all"
-                className="w-5"
+                type="text"
+                id="searchTerm"
+                placeholder="search..."
+                className="border border-bg rounded-lg p-3 w-full"
+                value={sidebarData.searchTerm}
                 onChange={handleSearch}
-                checked={sidebarData.type === "all"}
               />
-              <span>Rent & Sale</span>
             </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="rent"
-                className="w-5"
+            <div className="flex gap-2 flex-wrap items-center">
+              <label className="font-semibold text-egyptianblue">Type:</label>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="all"
+                  className="w-5"
+                  onChange={handleSearch}
+                  checked={sidebarData.type === "all"}
+                />
+                <span>Rent & Sale</span>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="rent"
+                  className="w-5"
+                  onChange={handleSearch}
+                  checked={sidebarData.type === "rent"}
+                />
+                <span>Rent</span>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="sale"
+                  className="w-5"
+                  onChange={handleSearch}
+                  checked={sidebarData.type === "sale"}
+                />
+                <span>Sale</span>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="offer"
+                  className="w-5"
+                  onChange={handleSearch}
+                  checked={sidebarData.offer}
+                />
+                <span>Offer</span>
+              </div>
+            </div>
+            <div className="flex gap-2 flex-wrap items-center">
+              <label className="font-semibold text-egyptianblue">
+                Amenities:
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="parking"
+                  className="w-5"
+                  onChange={handleSearch}
+                  checked={sidebarData.parking}
+                />
+                <span>Parking</span>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="furnished"
+                  className="w-5"
+                  onChange={handleSearch}
+                  checked={sidebarData.furnished}
+                />
+                <span>Furnished</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="font-semibold text-egyptianblue">Sort:</label>
+              <select
                 onChange={handleSearch}
-                checked={sidebarData.type === "rent"}
-              />
-              <span>Rent</span>
+                defaultValue={"created_at_desc"}
+                id="sort_order"
+                className="border border-bg rounded-lg p-3"
+              >
+                <option value="regularPrice_desc">Price high to low</option>
+                <option value="regularPrice_asc">Price low to high</option>
+                <option value="created_at_desc">Latest</option>
+                <option value="created_at_asc">Oldest</option>
+              </select>
             </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="sale"
-                className="w-5"
-                onChange={handleSearch}
-                checked={sidebarData.type === "sale"}
-              />
-              <span>Sale</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="offer"
-                className="w-5"
-                onChange={handleSearch}
-                checked={sidebarData.offer}
-              />
-              <span>Offer</span>
-            </div>
-          </div>
-          <div className="flex gap-2 flex-wrap items-center">
-            <label className="font-semibold text-egyptianblue">
-              Amenities:
-            </label>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="parking"
-                className="w-5"
-                onChange={handleSearch}
-                checked={sidebarData.parking}
-              />
-              <span>Parking</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="furnished"
-                className="w-5"
-                onChange={handleSearch}
-                checked={sidebarData.furnished}
-              />
-              <span>Furnished</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <label className="font-semibold text-egyptianblue">Sort:</label>
-            <select
-              onChange={handleSearch}
-              defaultValue={"created_at_desc"}
-              id="sort_order"
-              className="border border-bg rounded-lg p-3"
-            >
-              <option value="regularPrice_desc">Price high to low</option>
-              <option value="regularPrice_asc">Price low to high</option>
-              <option value="created_at_desc">Latest</option>
-              <option value="created_at_asc">Oldest</option>
-            </select>
-          </div>
-          <button className="bg-egyptianblue p-3 text-white uppercase rounded-lg hover:opacity-95">
-            Search
-          </button>
-        </form>
-      </div>
-      <div className="flex-1">
-        <h1 className="text-3xl font-semibold border-b p-3 text-egyptianblue mt-5">
-          Search Results:
-        </h1>
-        <div className="p-7 flex flex-wrap gap-4">
-          {!loading && listings.length === 0 && (
-            <p className="text-xl text-egyptianblue">
-              Listing not found! Check your search parameters
-            </p>
-          )}
-          {loading && (
-            <p className="text-xl text-egyptianblue text-center w-full">
-              Loading...
-            </p>
-          )}
-          {!loading &&
-            listings &&
-            listings.map((listing) => (
-              <ListingCard key={listing._id} listing={listing} />
-            ))}
-          {showMore && (
-            <button
-              onClick={onShowMoreClick}
-              className="text-green-700 hover:underline p-7 text-center w-full"
-            >
-              Shore more
+            <button className="bg-egyptianblue p-3 text-white uppercase rounded-lg hover:opacity-95">
+              Search
             </button>
-          )}
+          </form>
+        </div>
+        <div className="flex-1">
+          <h1 className="text-3xl font-semibold border-b p-3 text-egyptianblue mt-5">
+            Search Results:
+          </h1>
+          <div className="p-7 flex flex-wrap gap-4">
+            {!loading && listings.length === 0 && (
+              <p className="text-xl text-egyptianblue">
+                Listing not found! Check your search parameters
+              </p>
+            )}
+            {loading && (
+              <p className="text-xl text-egyptianblue text-center w-full">
+                Loading...
+              </p>
+            )}
+            {!loading &&
+              listings &&
+              listings.map((listing) => (
+                <ListingCard key={listing._id} listing={listing} />
+              ))}
+            {showMore && (
+              <button
+                onClick={onShowMoreClick}
+                className="text-green-700 hover:underline p-7 text-center w-full"
+              >
+                Shore more
+              </button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </section>
   );
 }

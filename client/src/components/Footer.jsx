@@ -12,7 +12,7 @@ const Footer = () => {
             <Link to={"/"} className="flex items-center">
               <img
                 src="../images/city_scape_logo2.png"
-                className="h-8 me-3"
+                className="h-8 me-3 hover: filter hover:brightness-110 w-auto"
                 alt="City Scape Homes"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
@@ -50,7 +50,11 @@ const Footer = () => {
               </h2>
               <ul className="text-gray-400 dark:text-gray-300 font-medium">
                 <li className="mb-4">
-                  <a href="#" target="_blank" className="hover:text-neonorange">
+                  <a
+                    href="https://maps.app.goo.gl/N9ZSm1rJvu1fapwz7"
+                    target="_blank"
+                    className="hover:text-neonorange"
+                  >
                     <div className="flex items-center gap-1">
                       <MdLocationOn className="text-lg" />
                       <p className="text-gray-400 dark:text-gray-300 font-medium">
@@ -86,7 +90,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to={"/terms"}
+                    to={"/terms-of-use"}
                     className="hover:text-neonorange hover:underline"
                   >
                     Terms &amp; Conditions
@@ -109,7 +113,7 @@ const Footer = () => {
             <a
               href="https://www.tiktok.com/@cityscape254?lang=en"
               target="_blank"
-              className="text-gray-400 hover:text-egyptianblue dark:hover:text-white"
+              className="text-gray-400 hover:text-egyptianblue dark:hover:text-white ms-5"
             >
               <FaTiktok className="w-4 h-4" />
               <span className="sr-only">TikTok</span>

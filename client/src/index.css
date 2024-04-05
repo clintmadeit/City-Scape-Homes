@@ -92,3 +92,65 @@ body {
   align-items: center;
   gap: 20px;
 }
+
+/* create listing page styling ends */
+
+/* Out team section starts */
+/*
+
+.team-member-card {
+  background-color: #ffffff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.team-member-card:hover {
+  transform: translateY(-5px);
+}
+
+.team-member-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+}
+
+.team-member-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.team-member-role {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.team-member-description {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+}
+
+.social-links a {
+  color: #666;
+  font-size: 1.2rem;
+  margin: 0 5px;
+  transition: color 0.3s ease-in-out;
+}
+
+.social-links a:hover {
+  color: #333;
+}
+*/
+
+/* Out team section ends */

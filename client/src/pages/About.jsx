@@ -17,9 +17,14 @@ const About = () => {
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center p-10">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl text-white font-bold mb-4">
+              <motion.h2
+                className="text-4xl sm:text-5xl lg:text-6xl text-white font-bold mb-4"
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
                 About Us
-              </h2>
+              </motion.h2>
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 space-x-4 sm:smace-x-8"></div>
             </div>
           </div>

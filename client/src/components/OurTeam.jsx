@@ -17,16 +17,16 @@ const TeamMemberCard = ({ name, role, image, social }) => {
     ).isRequired,
   };
   return (
-    <div className="flex flex-col items-center justify-center p-6 bg-egyptianblue shadow-md rounded-lg transition duration-500 transform hover:-translate-y-2">
+    <div className="flex flex-col items-center justify-center py-4 bg-gray-100 border border-bg shadow-md rounded-lg transition duration-500 transform hover:-translate-y-2">
       <img
         src={image}
         alt={name}
-        className="rounded-full h-32 w-32 mb-4 border-2 border-primary-500 object-cover"
+        className="rounded-full h-32 w-32 mb-4 border-2 border-neonorange border-primary-500 object-cover"
       />
-      <h3 className="text-xl font-semibold text-white mb-2 text-primary-700">
+      <h3 className="text-xl font-bold text-egyptianblue mb-2 text-primary-700">
         {name}
       </h3>
-      <p className="text-white font-semibold mb-2">{role}</p>
+      <p className="text-egyptianblue font-semibold mb-2">{role}</p>
       <div className="flex mt-4 space-x-4">
         {social.map((link, index) => (
           <a
@@ -34,7 +34,7 @@ const TeamMemberCard = ({ name, role, image, social }) => {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="transition duration-300 ease-in-out flex gap-2 items-center justify-center p-1 rounded-full bg-white hover:bg-neonorange"
+            className="transition duration-300 ease-in-out flex gap-2 items-center justify-center p-1 rounded-full bg-white hover:bg-egyptianblue"
           >
             {
               {
@@ -88,17 +88,17 @@ const OurTeam = () => {
       social: [
         { url: "https://www.linkedin.com/", icon: "fa-linkedin" },
         { url: "https://twitter.com/", icon: "fa-twitter" },
-        { url: "https://www.facebook.com/", icon: "fa-facebook" },
+        { url: "https://www.facebook.com/abraham.abou.5", icon: "fa-facebook" },
       ],
     },
     {
       name: "Rohi Wanjala",
       role: "Head of Media & Marketing",
-      image: "../images/founder2.jpg",
+      image: "../images/rohi.jpg",
       social: [
         { url: "https://www.linkedin.com/", icon: "fa-linkedin" },
         { url: "https://twitter.com/", icon: "fa-twitter" },
-        { url: "https://www.facebook.com/", icon: "fa-facebook" },
+        { url: "https://www.facebook.com/roy.ronyx", icon: "fa-facebook" },
       ],
     },
     // Add more team members here
@@ -111,7 +111,7 @@ const OurTeam = () => {
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 5000,
     responsive: [
       {
         breakpoint: 1024,
@@ -131,7 +131,7 @@ const OurTeam = () => {
   return (
     <div className="bg-gray-100 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-egyptianblue mb-6 text-center">
+        <h2 className="text-4xl font-bold text-egyptianblue mb-6 text-center">
           Meet Our Team
         </h2>
         <Slider {...sliderSettings}>

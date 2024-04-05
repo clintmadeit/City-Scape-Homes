@@ -154,6 +154,7 @@ export default function Listing() {
             )}
             {contact && <Contact listing={listing} />}
           </div>
+          <Footer />
         </>
       )}
     </main>

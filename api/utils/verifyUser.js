@@ -11,3 +11,15 @@ export const verifyToken = (req, res, next) => {
     next();
   });
 };
+
+export const isAdmin = (req, res, next) => {
+  verifyToken(req, res, (err) => {
+    if (err) return next(err); // Forward error to error handler if token verification fails
+
+    if (req.user.isAdmin) {
+      next(); // User is an admin, proceed to the next middleware
+    } else {
+      return res.status(403).json({ message: "Admin access required" });
+    }
+  });
+};

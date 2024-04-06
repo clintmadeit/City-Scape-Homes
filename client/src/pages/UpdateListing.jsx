@@ -12,6 +12,7 @@ import Footer from "../components/Footer";
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
+
   const navigate = useNavigate();
   const params = useParams();
   const [files, setFiles] = useState([]);

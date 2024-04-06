@@ -13,6 +13,7 @@ import Search from "./pages/Search.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import TermsOfUse from "./pages/TermsOfUse.jsx";
+import Unauthorized from "./pages/Unauthorized.jsx";
 
 export default function App() {
   return (
@@ -28,13 +29,19 @@ export default function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/listing/:listingId" element={<Listing />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
-          <Route path="/create-listing" element={<CreateListing />} />
+          <Route
+            path="/create-listing"
+            element={<CreateListing />}
+            adminRequired
+          />
           <Route
             path="/update-listing/:listingId"
             element={<UpdateListing />}
+            adminRequired
           />
         </Route>
       </Routes>

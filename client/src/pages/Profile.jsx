@@ -243,9 +243,14 @@ export default function Profile() {
         <p className="text-green-700 mt-5">
           {updateSuccess ? "User has been updated successfully!" : ""}
         </p>
-        <button onClick={handleShowListings} className="text-green-700 w-full ">
-          Show Listings
-        </button>
+        {currentUser.isAdmin && (
+          <button
+            onClick={handleShowListings}
+            className="text-green-700 w-full "
+          >
+            Show Listings
+          </button>
+        )}
         <p className="text-red-700 mt-5">
           {showListingsError ? "Error fetching listings!" : ""}
         </p>

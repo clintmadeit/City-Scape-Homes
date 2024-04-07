@@ -17,16 +17,16 @@ const TeamMemberCard = ({ name, role, image, social }) => {
     ).isRequired,
   };
   return (
-    <div className="flex flex-col items-center justify-center py-4 bg-gray-100 border border-bg shadow-md rounded-lg transition duration-500 transform hover:-translate-y-2">
+    <div className="flex flex-col items-center justify-center py-4 bg-egyptianblue border border-bg shadow-md rounded-lg transition duration-500 transform hover:-translate-y-2">
       <img
         src={image}
         alt={name}
         className="rounded-full h-32 w-32 mb-4 border-2 border-neonorange border-primary-500 object-cover"
       />
-      <h3 className="text-xl font-bold text-egyptianblue mb-2 text-primary-700">
+      <h3 className="text-xl font-bold text-white mb-2 text-primary-700">
         {name}
       </h3>
-      <p className="text-egyptianblue font-semibold mb-2">{role}</p>
+      <p className="text-white font-semibold mb-2">{role}</p>
       <div className="flex mt-4 space-x-4">
         {social.map((link, index) => (
           <a
@@ -34,26 +34,26 @@ const TeamMemberCard = ({ name, role, image, social }) => {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="transition duration-300 ease-in-out flex gap-2 items-center justify-center p-1 rounded-full bg-white hover:bg-egyptianblue"
+            className="transition duration-300 ease-in-out flex items-center justify-center p-1 rounded-full bg-white hover:bg-neonorange"
           >
             {
               {
                 "fa-linkedin": (
                   <FaLinkedinIn
                     size={20}
-                    className="text-neonorange hover:text-white"
+                    className="text-egyptianblue hover:text-white"
                   />
                 ),
                 "fa-twitter": (
                   <FaTwitter
                     size={20}
-                    className="text-neonorange hover:text-white"
+                    className="text-egyptianblue hover:text-white"
                   />
                 ),
                 "fa-facebook": (
                   <FaFacebookF
                     size={20}
-                    className="text-neonorange hover:text-white"
+                    className="text-egyptianblue hover:text-white"
                   />
                 ),
               }[link.icon]
@@ -119,6 +119,7 @@ const OurTeam = () => {
           slidesToShow: 2,
         },
       },
+
       {
         breakpoint: 768,
         settings: {
@@ -131,12 +132,9 @@ const OurTeam = () => {
   return (
     <div className="bg-gray-100 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-egyptianblue mb-6 text-center">
-          Meet Our Team
-        </h2>
         <Slider {...sliderSettings}>
           {teamMembers.map((member, index) => (
-            <div key={index}>
+            <div className="px-5" key={index}>
               <TeamMemberCard {...member} />
             </div>
           ))}

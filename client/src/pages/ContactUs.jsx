@@ -33,7 +33,14 @@ export default function ContactUs() {
             setSuccessMessage("Message sent successfully!");
             setErrorMessage("");
             console.log(result.text);
-            e.target.reset();
+            setInputValue({
+              firstName: "",
+              lastName: "",
+              phoneNumber: "",
+              email: "",
+              message: "",
+              subject: "General Inquiry",
+            });
           },
           (error) => {
             setErrorMessage("Failed to send message. Please try again later.");

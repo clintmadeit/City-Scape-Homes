@@ -77,9 +77,11 @@ export default function ContactUs() {
     <section>
       <div className="max-w-6xl mx-auto bg-white my-6 text-[#0e2f4f]">
         <div className="text-center px-6">
-          <h2 className="text-3xl font-extrabold">Reach Us</h2>
+          <h2 className="text-3xl font-extrabold">Get in touch</h2>
           <p className="text-sm text-gray-500 mt-3">
-            Want to comment, condemn or even share brilliant ideas with us?
+            Reach out to us and let's start a conversation. Whether you have
+            questions, feedback, or ideas, we're here to listen and respond.
+            Your input is valuable to us.
           </p>
         </div>
         <div className="grid lg:grid-cols-3 items-center gap-4 p-2 rounded-lg mt-8 shadow-xl">
@@ -88,7 +90,8 @@ export default function ContactUs() {
               Contact Information
             </h2>
             <p className="text-sm text-gray-300 mt-3">
-              Want to comment, condemn or even share brilliant ideas with us?
+              Whether you have questions, feedback, or ideas, we're here to
+              listen and respond.
             </p>
             <ul className="mt-16 space-y-10">
               <li className="flex items-center max-lg:justify-center">

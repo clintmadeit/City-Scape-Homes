@@ -2,6 +2,7 @@ import emailjs from "emailjs-com";
 import { useState } from "react";
 import { FaInstagram, FaTiktok, FaTwitter, FaYoutube } from "react-icons/fa";
 import { MdCall, MdEmail, MdLocationOn } from "react-icons/md";
+import { BeatLoader } from "react-spinners";
 import Footer from "../components/Footer";
 
 export default function ContactUs() {
@@ -16,9 +17,12 @@ export default function ContactUs() {
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const sendEmail = (e) => {
     e.preventDefault();
+
+    setLoading(true);
 
     try {
       emailjs
@@ -52,6 +56,7 @@ export default function ContactUs() {
       // Handle the error
       console.error("An error occurred:", error);
     }
+    setLoading(false);
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -161,8 +166,15 @@ export default function ContactUs() {
             </div>
           </div>
           <div className="p-6 rounded-xl lg:col-span-2">
-            {successMessage && (
-              <div className="text-green-600">{successMessage}</div>
+            {loading ? (
+              <BeatLoader color="#0e2f4f" />
+            ) : (
+              <>
+                {successMessage && (
+                  <p className="text-green-500">{successMessage}</p>
+                )}
+                {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+              </>
             )}
             {errorMessage && <div className="text-red-600">{errorMessage}</div>}
             <form onSubmit={sendEmail}>

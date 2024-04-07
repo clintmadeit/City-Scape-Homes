@@ -20,33 +20,27 @@ export default function ContactUs() {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    try {
-      emailjs
-        .sendForm(
-          "service_btuikdi",
-          "template_78x6zxj",
-          e.target,
-          "vTR9Gpvhreea8FUAm"
-        )
-        .then(
-          (result) => {
-            setSuccessMessage(result, "Email sent successfully!");
-            setErrorMessage("");
-
-            e.target.reset();
-          },
-          (error) => {
-            setErrorMessage(
-              error,
-              "Failed to send email. Please try again later."
-            );
-            setSuccessMessage("");
-          }
-        );
-    } catch (error) {
-      // Handle the error
-      console.error("An error occurred:", error);
-    }
+    emailjs
+      .sendForm(
+        "service_btuikdi",
+        "template_78x6zxj",
+        e.target,
+        "vTR9Gpvhreea8FUAm"
+      )
+      .then(
+        (result) => {
+          setSuccessMessage(result, "Message sent successfully!");
+          setErrorMessage("");
+        },
+        (error) => {
+          setErrorMessage(
+            error,
+            "Failed to send message. Please try again later."
+          );
+          setSuccessMessage("");
+        }
+      );
+    e.target.reset();
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;

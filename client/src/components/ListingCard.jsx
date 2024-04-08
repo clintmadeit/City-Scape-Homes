@@ -5,9 +5,13 @@ import axios from "axios";
 import { MdLocationOn } from "react-icons/md";
 
 function formatNumber(num) {
-  return num >= 1e6
-    ? (num / 1e6).toFixed(1) + "M"
-    : num.toLocaleString("en-US");
+  if (num < 1000000) {
+    return num;
+  } else {
+    return num % 1000000 === 0
+      ? num / 1000000 + "M"
+      : (num / 1000000).toFixed(2) + "M";
+  }
 }
 
 export default function ListingCard({ listing }) {
@@ -27,6 +31,10 @@ export default function ListingCard({ listing }) {
       console.error(error);
     }
   };
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3e91929 (Added location/distance calculator functionality. Improved listing card and home page UI.)
   return (
     <div className="w-full bg-white rounded-lg shadow-md overflow-hidden">
       <Link to={`/listing/${listing._id}`}>
@@ -76,9 +84,13 @@ export default function ListingCard({ listing }) {
             )}
             {listing.offer && (
               <div className="bg-egyptianblue text-white text-center font-semibold p-1 rounded-md">
-                Ksh{" "}
-                {formatNumber(+listing.regularPrice - +listing.discountedPrice)}{" "}
-                OFF!
+                <div className="font-bold text-lg">
+                  Ksh{" "}
+                  {formatNumber(
+                    +listing.regularPrice - +listing.discountedPrice
+                  )}{" "}
+                  OFF!
+                </div>
               </div>
             )}
           </div>

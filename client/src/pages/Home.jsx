@@ -101,13 +101,17 @@ export default function Home() {
           <div className="">
             <div className="my-3">
               <h2 className="text-2xl font-bold text-egyptianblue">
+<<<<<<< HEAD
                 Recent Properties on Offers
+=======
+                Recent Properties on Offer
+>>>>>>> 3e91929 (Added location/distance calculator functionality. Improved listing card and home page UI.)
               </h2>
               <Link
                 className="text-egyptianblue text-sm hover:text-neonorange"
                 to={"/search?offer=true"}
               >
-                Show more offers
+                Show more properties on offers
               </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

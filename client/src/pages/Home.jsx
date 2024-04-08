@@ -56,7 +56,7 @@ export default function Home() {
       {/* top */}
       <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
         <h1 className="text-egyptianblue text-3xl lg:text-6xl font-bold">
-          Find your dream <span className="text-neonorange">perfect</span>{" "}
+          Find your next <span className="text-neonorange">Perfect Dream</span>{" "}
           <br />
           home with ease
         </h1>
@@ -101,7 +101,7 @@ export default function Home() {
           <div className="">
             <div className="my-3">
               <h2 className="text-2xl font-bold text-egyptianblue">
-                Recent Offers
+                Recent Properties on Offers
               </h2>
               <Link
                 className="text-egyptianblue text-sm hover:text-neonorange"
@@ -110,7 +110,7 @@ export default function Home() {
                 Show more offers
               </Link>
             </div>
-            <div className="flex flex-wrap gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {offerListings.map((listing) => (
                 <ListingCard key={listing._id} listing={listing} />
               ))}
@@ -130,7 +130,7 @@ export default function Home() {
                 Show more properties for rent
               </Link>
             </div>
-            <div className="flex flex-wrap gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {rentListings.map((listing) => (
                 <ListingCard key={listing._id} listing={listing} />
               ))}
@@ -150,7 +150,7 @@ export default function Home() {
                 Show more properties for sale
               </Link>
             </div>
-            <div className="flex flex-wrap gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {saleListings.map((listing) => (
                 <ListingCard key={listing._id} listing={listing} />
               ))}

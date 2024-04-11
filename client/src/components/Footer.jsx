@@ -9,7 +9,11 @@ const Footer = () => {
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
-            <Link to={"/"} className="flex items-center">
+            <Link
+              to={"/"}
+              className="flex items-center"
+              onClick={() => window.scrollTo(0, 0)}
+            >
               <img
                 src="../images/city_scape_logo2.png"
                 className="h-8 me-3 hover: filter hover:brightness-110 w-auto"
@@ -29,6 +33,7 @@ const Footer = () => {
                 <li className="mb-4">
                   <Link
                     to={"/about"}
+                    onClick={() => window.scrollTo(0, 0)}
                     className="hover:text-neonorange hover:underline"
                   >
                     About Us
@@ -37,6 +42,7 @@ const Footer = () => {
                 <li>
                   <Link
                     to={"/search"}
+                    onClick={() => window.scrollTo(0, 0)}
                     className="hover:text-neonorange hover:underline"
                   >
                     Listings
@@ -64,7 +70,11 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <Link to={"/contact-us"} className="hover:text-neonorange">
+                  <Link
+                    to={"/contact-us"}
+                    onClick={() => window.scrollTo(0, 0)}
+                    className="hover:text-neonorange"
+                  >
                     <div className="flex items-center gap-1">
                       <MdContactMail className="text-lg" />
                       <p className="text-gray-400 dark:text-gray-300 font-medium">
@@ -83,6 +93,7 @@ const Footer = () => {
                 <li className="mb-4">
                   <Link
                     to={"/privacy-policy"}
+                    onClick={() => window.scrollTo(0, 0)}
                     className="hover:text-neonorange hover:underline"
                   >
                     Privacy Policy
@@ -91,6 +102,7 @@ const Footer = () => {
                 <li>
                   <Link
                     to={"/terms-of-use"}
+                    onClick={() => window.scrollTo(0, 0)}
                     className="hover:text-neonorange hover:underline"
                   >
                     Terms &amp; Conditions
@@ -104,7 +116,11 @@ const Footer = () => {
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-gray-400 sm:text-center dark:text-gray-300">
             © {new Date().getFullYear()}{" "}
-            <Link to={"/"} className="hover:text-neonorange">
+            <Link
+              to={"/"}
+              onClick={() => window.scrollTo(0, 0)}
+              className="hover:text-neonorange"
+            >
               Cityscape Homes
             </Link>
             . All Rights Reserved.

@@ -92,7 +92,7 @@ export default function ListingCard({ listing }) {
           </div>
         </div>
       </Link>
-      <div className="flex flex-col space-y-2 sm:space-y-0 sm:space-x-4 gap-4">
+      {/* <div className="flex flex-col space-y-2 sm:space-y-0 sm:space-x-4 gap-4">
         <input
           type="text"
           placeholder="Enter your work address"
@@ -116,7 +116,7 @@ export default function ListingCard({ listing }) {
             </p>
           </div>
         )}
-      </div>
+      </div>*/}
     </div>
   );
 }

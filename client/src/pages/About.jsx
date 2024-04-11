@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import OurTeam from "../components/OurTeam";
 import { motion } from "framer-motion";
 import "../coreValues.css";
-import { FaBullseye, FaEye, FaMandalorian, FaVenusMars } from "react-icons/fa";
+import { FaBullseye, FaEye } from "react-icons/fa";
 
 const About = () => {
   const [bgImages, setBgImages] = useState([
@@ -50,17 +50,25 @@ const About = () => {
                   About Us
                 </motion.h2>
                 <motion.p className="text-white text-sm sm:text-l lg:text-xl leading-relaxed sm:leading-normal mb-8">
-                  Welcome to Cityscape Homes, where we redefine the concept of
-                  urban living. As a premier real estate company, we specialize
-                  in curating exceptional residential experiences tailored to
-                  the diverse needs and desires of our clientele. With an
-                  unwavering commitment to quality, innovation, and customer
-                  satisfaction, we strive to create spaces that inspire,
-                  elevate, and exceed expectations. Whether you're seeking a
-                  luxurious penthouse in the heart of the city or a tranquil
-                  suburban retreat, our dedicated team is here to guide you
-                  every step of the way. Welcome to a world of unparalleled
-                  sophistication and style with Cityscape Homes.
+                  <span className="hidden sm:inline">
+                    Welcome to Cityscape Homes, where we redefine the concept of
+                    urban living. As a premier real estate company, we
+                    specialize in curating exceptional residential experiences
+                    tailored to the diverse needs and desires of our clientele.
+                    With an unwavering commitment to quality, innovation, and
+                    customer satisfaction, we strive to create spaces that
+                    inspire, elevate, and exceed expectations. Whether you're
+                    seeking a luxurious penthouse in the heart of the city or a
+                    tranquil suburban retreat, our dedicated team is here to
+                    guide you every step of the way. Welcome to a world of
+                    unparalleled sophistication and style with Cityscape Homes.
+                  </span>
+                  <span className="sm:hidden">
+                    Welcome to Cityscape Homes, where we redefine the concept of
+                    urban living. As a premier real estate company, we
+                    specialize in curating exceptional residential experiences
+                    tailored to the diverse needs and desires of our clientele.
+                  </span>
                 </motion.p>
               </div>
             </div>

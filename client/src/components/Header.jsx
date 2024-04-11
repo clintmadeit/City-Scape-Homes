@@ -32,7 +32,7 @@ export default function Header() {
           <img
             src="../images/city_scape_logo.png"
             alt="Logo"
-            className="logo-img hover: filter hover:brightness-110"
+            className="logo-img hover:filter hover:brightness-110 text-xs sm:text-base"
           />
         </Link>
         <form
@@ -50,7 +50,7 @@ export default function Header() {
             <FaSearch className="text-neonorange" />
           </button>
         </form>
-        <ul className="flex gap-4 cursor-pointer font-semibold">
+        <ul className="flex gap-4 cursor-pointer font-semibold text-xs sm:text-base">
           <Link to={"/"}>
             <li className="hidden sm:inline nav-menu menu-underline">Home</li>
           </Link>

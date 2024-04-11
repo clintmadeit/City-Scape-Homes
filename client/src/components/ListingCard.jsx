@@ -31,10 +31,6 @@ export default function ListingCard({ listing }) {
       console.error(error);
     }
   };
-<<<<<<< HEAD
-=======
-
->>>>>>> 3e91929 (Added location/distance calculator functionality. Improved listing card and home page UI.)
   return (
     <div className="w-full bg-white rounded-lg shadow-md overflow-hidden">
       <Link to={`/listing/${listing._id}`}>

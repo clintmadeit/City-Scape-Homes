@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import OAuth from "../components/OAuth";
 import Footer from "../components/Footer";
 
@@ -7,10 +8,13 @@ export default function SignUp() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -37,6 +41,11 @@ export default function SignUp() {
       setError(error.message);
     }
   };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
@@ -55,13 +64,21 @@ export default function SignUp() {
           id="email"
           onChange={handleChange}
         />
-        <input
-          type="password"
-          placeholder="password"
-          className="border p-3 rounded-lg focus:outline-none"
-          id="password"
-          onChange={handleChange}
-        />
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="password"
+            className="border p-3 rounded-lg focus:outline-none pr-10"
+            id="password"
+            onChange={handleChange}
+          />
+          <span
+            className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+            onClick={toggleShowPassword}
+          >
+            {showPassword ? <FiEyeOff /> : <FiEye />}
+          </span>
+        </div>
         <button
           disabled={loading}
           className="bg-egyptianblue text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"

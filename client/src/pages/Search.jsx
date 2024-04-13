@@ -238,7 +238,7 @@ export default function Search() {
           <h1 className="text-3xl font-semibold border-b p-3 text-egyptianblue mt-5">
             Search Results:
           </h1>
-          <div className="p-7 flex flex-wrap gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {!loading && listings.length === 0 && (
               <p className="text-xl text-egyptianblue">
                 Listing not found! Check your search parameters

@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
+import axios from "axios";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -23,6 +24,9 @@ export default function Listing() {
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
+  const [workAddress, setWorkAddress] = useState("");
+  const [distance, setDistance] = useState("");
+  const [durationInTraffic, setDurationInTraffic] = useState("");
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
@@ -53,6 +57,19 @@ export default function Listing() {
       ? (num / 1e6).toFixed(1) + "M"
       : num.toLocaleString("en-US");
   }
+
+  const handleCalculateDistance = async () => {
+    try {
+      const response = await axios.post("/api/calculateDistanceAndTraffic", {
+        workAddress,
+        listingCoordinates: listing.coordinates, // Assuming listing.coordinates is an object { lat, lng }
+      });
+      setDistance(response.data.distance);
+      setDurationInTraffic(response.data.durationInTraffic);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <main>
@@ -144,6 +161,31 @@ export default function Listing() {
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+              <input
+                type="text"
+                placeholder="Enter your work address"
+                value={workAddress}
+                onChange={(e) => setWorkAddress(e.target.value)}
+                className="px-3 py-2 border border-neonorange rounded-md focus:outline-none focus:ring-2 focus:ring-egyptianblue w-full sm:w-auto"
+              />
+              <button
+                onClick={handleCalculateDistance}
+                className="px-4 py-2  text-white bg-egyptianblue rounded-md hover:opacity-95 w-full sm:w-auto"
+              >
+                Calculate Distance
+              </button>
+              {distance && durationInTraffic && (
+                <div className="mt-4">
+                  <p className="text-indigo-500 font-semibold">
+                    Distance from work: {distance} km
+                  </p>
+                  <p className="text-indigo-500 font-semibold">
+                    Duration in traffic: {durationInTraffic}
+                  </p>
+                </div>
+              )}
+            </div>
             {currentUser && listing.userRef !== currentUser._id && !contact && (
               <button
                 onClick={() => setContact(true)}

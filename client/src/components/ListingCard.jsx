@@ -15,22 +15,6 @@ function formatNumber(num) {
 }
 
 export default function ListingCard({ listing }) {
-  const [workAddress, setWorkAddress] = useState("");
-  const [distance, setDistance] = useState("");
-  const [durationInTraffic, setDurationInTraffic] = useState("");
-
-  const handleCalculateDistance = async () => {
-    try {
-      const response = await axios.post("/api/calculateDistanceAndTraffic", {
-        workAddress,
-        listingCoordinates: listing.coordinates, // Assuming listing.coordinates is an object { lat, lng }
-      });
-      setDistance(response.data.distance);
-      setDurationInTraffic(response.data.durationInTraffic);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <div className="w-full bg-white rounded-lg shadow-md overflow-hidden">
       <Link to={`/listing/${listing._id}`}>
@@ -92,31 +76,6 @@ export default function ListingCard({ listing }) {
           </div>
         </div>
       </Link>
-      {/* <div className="flex flex-col space-y-2 sm:space-y-0 sm:space-x-4 gap-4">
-        <input
-          type="text"
-          placeholder="Enter your work address"
-          value={workAddress}
-          onChange={(e) => setWorkAddress(e.target.value)}
-          className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-egyptianblue w-full sm:w-auto"
-        />
-        <button
-          onClick={handleCalculateDistance}
-          className="px-4 py-2  text-white bg-egyptianblue rounded-md hover:opacity-95 w-full sm:w-auto"
-        >
-          Calculate Distance
-        </button>
-        {distance && durationInTraffic && (
-          <div className="mt-4">
-            <p className="text-indigo-500 font-semibold">
-              Distance from work: {distance} km
-            </p>
-            <p className="text-indigo-500 font-semibold">
-              Duration in traffic: {durationInTraffic}
-            </p>
-          </div>
-        )}
-      </div>*/}
     </div>
   );
 }

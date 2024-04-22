@@ -174,7 +174,7 @@ export default function CreateListing() {
   return (
     <main>
       <div className="p-3 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-semibold text-center my-7">
+        <h1 className="text-3xl text-egyptianblue font-semibold text-center my-7">
           Create a Listing
         </h1>
         <form
@@ -345,7 +345,7 @@ export default function CreateListing() {
             </div>
           </div>
           <div className="flex flex-col flex-1 gap-4">
-            <p className="font-semibold">
+            <p className="font-semibold text-egyptianblue">
               Images:
               <span className="font-normal text-gray-600 ml-2">
                 The first image will be the cover (max 6)

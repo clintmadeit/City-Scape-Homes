@@ -30,7 +30,7 @@ export default function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/listing/:listingId" element={<Listing />} />
-        <Route path="/booking/:listingID" element={<Bookings />} />
+        <Route path="/booking/:listingId" element={<Bookings />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 
         <Route element={<PrivateRoute />}>

@@ -100,7 +100,11 @@ export default function CreateListing() {
   };
 
   const handleChange = (e) => {
-    if (e.target.id === "sale" || e.target.id === "rent") {
+    if (
+      e.target.id === "sale" ||
+      e.target.id === "rent" ||
+      e.target.id === "hotel"
+    ) {
       setFormData({
         ...formData,
         type: e.target.id,
@@ -115,6 +119,12 @@ export default function CreateListing() {
       setFormData({
         ...formData,
         [e.target.id]: e.target.checked,
+      });
+    }
+    if (e.target.id === "listingType" && e.target.value === "hotel") {
+      setFormData({
+        ...formData,
+        furnished: true,
       });
     }
 
@@ -225,6 +235,16 @@ export default function CreateListing() {
               <div className="flex gap-2">
                 <input
                   type="checkbox"
+                  id="hotel"
+                  className="w-5"
+                  onChange={handleChange}
+                  checked={formData.type === "hotel"}
+                />
+                <span>Hotel</span>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
                   id="parking"
                   className="w-5 border"
                   onChange={handleChange}
@@ -295,6 +315,9 @@ export default function CreateListing() {
                   <p>Regular Price</p>
                   {formData.type === "rent" && (
                     <span className="text-xs">(Ksh / month)</span>
+                  )}
+                  {formData.type === "hotel" && (
+                    <span className="text-xs">(Ksh / stay)</span>
                   )}
                 </div>
               </div>

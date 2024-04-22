@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelector } from "react-redux";
 import SwiperCore from "swiper";
@@ -186,6 +186,14 @@ export default function Listing() {
                 </div>
               )}
             </div>
+            <Link
+              to={`/booking/${listing._id}`}
+              className="inline-block bg-egyptianblue text-white font-semibold py-2 px-4 rounded-lg hover:bg-neonorange transition-colors duration-200 ease-in-out text-center"
+            >
+              {listing.type === "rent" || listing.type === "sale"
+                ? "Book Viewing"
+                : "Book Your Stay"}
+            </Link>
             {currentUser && listing.userRef !== currentUser._id && !contact && (
               <button
                 onClick={() => setContact(true)}

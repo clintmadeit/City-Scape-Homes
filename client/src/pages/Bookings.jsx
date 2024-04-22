@@ -51,6 +51,30 @@ export default function BookingPage() {
     try {
       setLoading(true);
       // Perform booking logic based on booking type, selected date/stays, package, and payment method
+      // Prepare the booking details
+      const bookingDetails = {
+        userId: currentUser.id,
+        listingId: params.listingId,
+        bookingType,
+        startDate,
+        endDate,
+        selectedPackage,
+        paymentMethod,
+      };
+
+      // Send a POST request to the booking API
+      const response = await fetch("/api/booking/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingDetails),
+      });
+
+      // Check if the request was successful
+      if (!response.ok) {
+        throw new Error("Booking failed");
+      }
       setLoading(false);
       navigate("/booking-success");
     } catch (error) {

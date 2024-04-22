@@ -41,7 +41,6 @@ export default function BookingPage() {
     };
     fetchListing();
   }, [params.listingId]);
-  console.log(bookingType);
 
   if (!currentUser) {
     return <Navigate to="/sign-in" />;
@@ -53,7 +52,7 @@ export default function BookingPage() {
       // Perform booking logic based on booking type, selected date/stays, package, and payment method
       // Prepare the booking details
       const bookingDetails = {
-        userId: currentUser.id,
+        userId: currentUser._id,
         listingId: params.listingId,
         bookingType,
         startDate,

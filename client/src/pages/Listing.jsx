@@ -161,6 +161,13 @@ export default function Listing() {
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
+            <div className="mt-4">
+              <p className="text-gray-700 text-xs sm:text-sm font-semibold">
+                This logic helps you determine the estimate distance from your
+                work place to the location of the property. It may also estimate
+                the traffic situation.
+              </p>
+            </div>
             <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
               <input
                 type="text"
@@ -173,7 +180,7 @@ export default function Listing() {
                 onClick={handleCalculateDistance}
                 className="px-4 py-2  text-white bg-egyptianblue rounded-md hover:opacity-95 w-full sm:w-auto"
               >
-                Calculate Distance
+                Calculate
               </button>
               {distance && durationInTraffic && (
                 <div className="mt-4">
@@ -186,22 +193,26 @@ export default function Listing() {
                 </div>
               )}
             </div>
-            <Link
-              to={`/booking/${listing._id}`}
-              className="inline-block bg-egyptianblue text-white font-semibold py-2 px-4 rounded-lg hover:bg-neonorange transition-colors duration-200 ease-in-out text-center"
-            >
-              {listing.type === "rent" || listing.type === "sale"
-                ? "Book Showing"
-                : "Book Your Stay"}
-            </Link>
-            {currentUser && listing.userRef !== currentUser._id && !contact && (
-              <button
-                onClick={() => setContact(true)}
-                className="bg-egyptianblue text-white rounded-lg uppercase hover:opacity-95 p-3"
+            <div className="flex flex-row justify-between sm:space-x-2 mt-4">
+              <Link
+                to={`/booking/${listing._id}`}
+                className="inline-block bg-egyptianblue text-white font-semibold py-2 px-4 rounded-lg hover:bg-neonorange transition-colors duration-200 ease-in-out text-center"
               >
-                Contact management
-              </button>
-            )}
+                {listing.type === "rent" || listing.type === "sale"
+                  ? "Book Showing"
+                  : "Book Your Stay"}
+              </Link>
+              {currentUser &&
+                listing.userRef !== currentUser._id &&
+                !contact && (
+                  <button
+                    onClick={() => setContact(true)}
+                    className="inline-block bg-neonorange text-white font-semibold py-2 px-4 rounded-lg hover:bg-egyptianblue transition-colors duration-200 ease-in-out text-center"
+                  >
+                    Make Inquiry
+                  </button>
+                )}
+            </div>
             {contact && <Contact listing={listing} />}
           </div>
           <Footer />

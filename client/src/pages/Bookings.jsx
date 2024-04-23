@@ -130,7 +130,7 @@ export default function BookingPage() {
                     id="basic"
                     name="viewingPackage"
                     value="BASIC"
-                    className="text-egyptianblue focus:ring-blue-500 h-4 w-4 border-gray-300 rounded"
+                    className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
                     checked={selectedPackage === "BASIC"}
                     onChange={(e) => setSelectedPackage(e.target.value)}
                   />
@@ -147,7 +147,7 @@ export default function BookingPage() {
                     id="standard"
                     name="viewingPackage"
                     value="STANDARD"
-                    className="text-egyptianblue focus:ring-blue-500 h-4 w-4 border-gray-300 rounded"
+                    className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
                     checked={selectedPackage === "STANDARD"}
                     onChange={(e) => setSelectedPackage(e.target.value)}
                   />
@@ -164,7 +164,7 @@ export default function BookingPage() {
                     id="premium"
                     name="viewingPackage"
                     value="PREMIUM"
-                    className="text-egyptianblue focus:ring-blue-500 h-4 w-4 border-gray-300 rounded"
+                    className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
                     checked={selectedPackage === "PREMIUM"}
                     onChange={(e) => setSelectedPackage(e.target.value)}
                   />
@@ -214,7 +214,7 @@ export default function BookingPage() {
                 id="mpesa"
                 name="paymentMethod"
                 value="MPESA"
-                className="text-egyptianblue focus:ring-blue-500 h-4 w-4 border-gray-300 rounded"
+                className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
                 checked={paymentMethod === "MPESA"}
                 onChange={(e) => setPaymentMethod(e.target.value)}
               />
@@ -231,7 +231,7 @@ export default function BookingPage() {
                 id="paypal"
                 name="paymentMethod"
                 value="PAYPAL"
-                className="text-egyptianblue focus:ring-blue-500 h-4 w-4 border-gray-300 rounded"
+                className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
                 checked={paymentMethod === "PAYPAL"}
                 onChange={(e) => setPaymentMethod(e.target.value)}
               />
@@ -248,7 +248,7 @@ export default function BookingPage() {
                 id="bank"
                 name="paymentMethod"
                 value="BANK"
-                className="text-egyptianblue focus:ring-blue-500 h-4 w-4 border-gray-300 rounded"
+                className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
                 checked={paymentMethod === "BANK"}
                 onChange={(e) => setPaymentMethod(e.target.value)}
               />
@@ -265,7 +265,7 @@ export default function BookingPage() {
                 id="cash"
                 name="paymentMethod"
                 value="CASH"
-                className="text-egyptianblue focus:ring-blue-500 h-4 w-4 border-gray-300 rounded"
+                className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
                 checked={paymentMethod === "CASH"}
                 onChange={(e) => setPaymentMethod(e.target.value)}
               />

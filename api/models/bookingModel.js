@@ -7,7 +7,7 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "User",
       required: true,
     },
@@ -16,21 +16,26 @@ const bookingSchema = new mongoose.Schema(
       ref: "Listing",
       required: true,
     },
+    viewDate: {
+      type: Date,
+      // required: true,
+    },
     startDate: {
       type: Date,
-      required: true,
+      // required: true,
     },
     endDate: {
       type: Date,
-      required: true,
+      // required: true,
     },
     selectedPackage: {
-      type: Number,
-      required: true,
+      type: String,
+      // required: true,
     },
+
     paymentMethod: {
       type: String,
-      required: true,
+      // required: true,
     },
     status: {
       type: String,

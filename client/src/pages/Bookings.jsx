@@ -11,13 +11,28 @@ export default function BookingPage() {
   const [bookingType, setBookingType] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [selectedPackage, setSelectedPackage] = useState(1);
-  const [paymentMethod, setPaymentMethod] = useState("MPESA");
+  const [viewDate, setViewDate] = useState(new Date());
+  const [selectedPackage, setSelectedPackage] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
+  const packagePrices = {
+    BASIC: 1500,
+    STANDARD: 3000,
+    PREMIUM: 5000,
+  };
+
+  const packages = {
+    BASIC:
+      "Introducing our Basic Property Showcase Package! For just Ksh. 1500, you will be helped to explore detailed information and physically visit one out of three properties of your choice. Dive into comprehensive property details and take the first step towards finding your dream home. With this package, discovering your ideal property has never been easier or more affordable.",
+    STANDARD:
+      "Introducing our exclusive 'Property Preview' package! For just Ksh. 3000, users gain access to a comprehensive showcase of available properties with the flexibility to explore two out of three desired attributes in detail. Whether it's scrutinizing the interior design, assessing the neighborhood amenities, or gauging the property's layout, this package empowers you to make informed decisions before committing. Experience the convenience of virtual tours and detailed descriptions, ensuring every aspect meets your preferences. Say goodbye to uncertainty and hello to confident property hunting with our Property Preview package.",
+    PREMIUM:
+      "Introducing our premium package, designed to cater to your specific needs! For just Ksh. 5000, this package grants you access to detailed information and physical inspection of any three properties of your choice. Whether you're seeking a cozy apartment, a spacious house, or a commercial space, our package ensures that you get firsthand insights into the properties that pique your interest. With a focus on transparency and convenience, we're here to make your property search experience as seamless as possible.",
+  };
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -61,8 +76,9 @@ export default function BookingPage() {
       if (bookingType === "property") {
         bookingDetails = {
           ...bookingDetails,
-          viewingDate: startDate,
+          viewingDate: viewDate,
           viewingPackage: selectedPackage,
+          price: packagePrices[selectedPackage],
         };
       } else if (bookingType === "hotel") {
         bookingDetails = {
@@ -92,6 +108,12 @@ export default function BookingPage() {
       if (!response.ok) {
         const responseData = await response.json();
         throw new Error(responseData.message || "Booking failed");
+      } else if (!selectedPackage) {
+        throw new Error("Please select a viewing package to proceed");
+      } else if (!viewDate) {
+        throw new Error("Please select a viewing date to proceed");
+      } else if (!paymentMethod) {
+        throw new Error("Please select a payment method to proceed");
       }
 
       setLoading(false);
@@ -114,8 +136,8 @@ export default function BookingPage() {
               Select Viewing Date
             </h2>
             <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              selected={viewDate}
+              onChange={(date) => setViewDate(date)}
               className="w-full p-2 border rounded"
             />
             {/* Viewing package selection options */}
@@ -124,57 +146,29 @@ export default function BookingPage() {
                 Viewing Package
               </h2>
               <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="basic"
-                    name="viewingPackage"
-                    value="BASIC"
-                    className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
-                    checked={selectedPackage === "BASIC"}
-                    onChange={(e) => setSelectedPackage(e.target.value)}
-                  />
-                  <label
-                    htmlFor="basic"
-                    className="ml-2 block text-sm font-medium text-gray-700"
+                {Object.keys(packages).map((packageName) => (
+                  <div
+                    key={packageName}
+                    title={packages[packageName]}
+                    className="flex items-center"
                   >
-                    Basic
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="standard"
-                    name="viewingPackage"
-                    value="STANDARD"
-                    className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
-                    checked={selectedPackage === "STANDARD"}
-                    onChange={(e) => setSelectedPackage(e.target.value)}
-                  />
-                  <label
-                    htmlFor="standard"
-                    className="ml-2 block text-sm font-medium text-gray-700"
-                  >
-                    Standard
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="premium"
-                    name="viewingPackage"
-                    value="PREMIUM"
-                    className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
-                    checked={selectedPackage === "PREMIUM"}
-                    onChange={(e) => setSelectedPackage(e.target.value)}
-                  />
-                  <label
-                    htmlFor="premium"
-                    className="ml-2 block text-sm font-medium text-gray-700"
-                  >
-                    Premium
-                  </label>
-                </div>
+                    <input
+                      type="radio"
+                      id={packageName}
+                      name="viewingPackage"
+                      value={packageName}
+                      className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
+                      checked={selectedPackage === packageName}
+                      onChange={(e) => setSelectedPackage(e.target.value)}
+                    />
+                    <label
+                      htmlFor={packageName}
+                      className="ml-2 block text-sm font-medium text-gray-700"
+                    >
+                      {packageName[0] + packageName.slice(1).toLowerCase()}
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -259,23 +253,25 @@ export default function BookingPage() {
                 Bank Transfer
               </label>
             </div>
-            <div className="flex items-center">
-              <input
-                type="radio"
-                id="cash"
-                name="paymentMethod"
-                value="CASH"
-                className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
-                checked={paymentMethod === "CASH"}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-              />
-              <label
-                htmlFor="cash"
-                className="ml-2 block text-sm font-medium text-gray-700"
-              >
-                Cash
-              </label>
-            </div>
+            {currentUser.isAdmin && (
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="cash"
+                  name="paymentMethod"
+                  value="CASH"
+                  className="text-egyptianblue focus:ring-neonorange h-4 w-4 border-gray-300 rounded"
+                  checked={paymentMethod === "CASH"}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                />
+                <label
+                  htmlFor="cash"
+                  className="ml-2 block text-sm font-medium text-gray-700"
+                >
+                  Cash
+                </label>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex justify-center">

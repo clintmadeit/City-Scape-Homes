@@ -65,6 +65,12 @@ export default function BookingPage() {
     try {
       setLoading(true);
 
+      if (bookingType === "property" && new Date(viewDate) < new Date()) {
+        setError("Viewing date cannot be in the past.");
+        setLoading(false);
+        return;
+      }
+
       // Prepare the booking details
       let bookingDetails = {
         userId: currentUser._id,
@@ -108,7 +114,7 @@ export default function BookingPage() {
       if (!response.ok) {
         const responseData = await response.json();
         throw new Error(responseData.message || "Booking failed");
-      } else if (!selectedPackage) {
+      } else if (!selectedPackage && bookingType === "property") {
         throw new Error("Please select a viewing package to proceed");
       } else if (!viewDate) {
         throw new Error("Please select a viewing date to proceed");
@@ -128,7 +134,7 @@ export default function BookingPage() {
     <main className="bg-gray-100 min-h-screen">
       <div className="p-3 max-w-4xl mx-auto bg-gray-100">
         <h1 className="text-3xl font-semibold text-egyptianblue text-center my-7">
-          Book Now
+          {bookingType === "property" ? "Book your Viewing" : "Book your Stay"}
         </h1>
         {bookingType === "property" && (
           <div className="mt-5 mx-auto bg-white rounded-lg p-6 md:p-8 max-w-2xl">
@@ -138,6 +144,8 @@ export default function BookingPage() {
             <DatePicker
               selected={viewDate}
               onChange={(date) => setViewDate(date)}
+              minDate={new Date()}
+              maxDate={new Date(new Date().setMonth(new Date().getMonth() + 2))}
               className="w-full p-2 border rounded"
             />
             {/* Viewing package selection options */}
@@ -174,12 +182,14 @@ export default function BookingPage() {
           </div>
         )}
         {bookingType === "hotel" && (
-          <div className="mb-5">
-            <h2 className="text-xl text-egyptianblue font-semibold mb-3">
+          <div className="mt-5 mx-auto bg-white rounded-lg p-6 md:p-8 max-w-2xl">
+            <h2 className="text-xl text-egyptianblue font-semibold mb-5">
               Select Stay Duration
             </h2>
             <DatePicker
               selected={startDate}
+              minDate={new Date()}
+              maxDate={new Date(new Date().setMonth(new Date().getMonth() + 1))}
               onChange={(date) => setStartDate(date)}
               selectsStart
               startDate={startDate}
@@ -188,6 +198,7 @@ export default function BookingPage() {
             />
             <DatePicker
               selected={endDate}
+              maxDate={new Date(new Date().setMonth(new Date().getMonth() + 2))}
               onChange={(date) => setEndDate(date)}
               selectsEnd
               startDate={startDate}
@@ -198,7 +209,7 @@ export default function BookingPage() {
           </div>
         )}
         <div className="mt-5 mx-auto bg-white shadow-md rounded-lg p-6 md:p-8 max-w-2xl">
-          <h2 className="text-2xl text-egyptianblue font-semibold mb-5">
+          <h2 className="text-xl text-egyptianblue font-semibold mb-5">
             Payment Method
           </h2>
           <div className="flex flex-col sm:flex-row gap-4">

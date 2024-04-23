@@ -199,7 +199,7 @@ export default function Listing() {
                 className="inline-block bg-egyptianblue text-white font-semibold py-2 px-4 rounded-lg hover:bg-neonorange transition-colors duration-200 ease-in-out text-center"
               >
                 {listing.type === "rent" || listing.type === "sale"
-                  ? "Book Showing"
+                  ? "Book Your Viewing"
                   : "Book Your Stay"}
               </Link>
               {currentUser &&

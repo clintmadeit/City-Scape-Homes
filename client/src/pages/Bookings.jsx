@@ -282,10 +282,10 @@ export default function BookingPage() {
           <button
             onClick={handleBooking}
             disabled={loading}
-            className="mt-5 w-full bg-egyptianblue text-white px-4 py-2 rounded-md hover:bg-neonorange transition-colors duration-200 ease-in-out max-w-2xl mx-auto"
+            className="mt-5 w-full bg-egyptianblue text-white font-semibold px-4 py-2 rounded-md hover:bg-neonorange transition-colors duration-200 ease-in-out max-w-2xl mx-auto"
             style={{ fontSize: "1rem" }}
           >
-            {loading ? "Booking..." : "Book Now"}
+            {loading ? "Completing..." : "Complete Booking"}
           </button>
         </div>
         {error && <p className="text-red-700 mt-3">{error}</p>}

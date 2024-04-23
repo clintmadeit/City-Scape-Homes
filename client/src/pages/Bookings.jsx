@@ -58,6 +58,7 @@ export default function BookingPage() {
   }, [params.listingId]);
 
   if (!currentUser) {
+    setError("Please sign in to make a booking.");
     return <Navigate to="/sign-in" />;
   }
 

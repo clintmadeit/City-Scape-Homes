@@ -15,6 +15,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import TermsOfUse from "./pages/TermsOfUse.jsx";
 import Unauthorized from "./pages/Unauthorized.jsx";
 import Bookings from "./pages/Bookings.jsx";
+import Payment from "./pages/Payment.jsx";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/listing/:listingId" element={<Listing />} />
         <Route path="/booking/:listingId" element={<Bookings />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 
         <Route element={<PrivateRoute />}>

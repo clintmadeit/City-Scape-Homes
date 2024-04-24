@@ -73,7 +73,8 @@ export default function Search() {
     if (
       e.target.id === "all" ||
       e.target.id === "rent" ||
-      e.target.id === "sale"
+      e.target.id === "sale" ||
+      e.target.id === "hotel"
     ) {
       setSidebarData({ ...sidebarData, type: e.target.id });
     }
@@ -157,7 +158,7 @@ export default function Search() {
                   onChange={handleSearch}
                   checked={sidebarData.type === "all"}
                 />
-                <span>Rent & Sale</span>
+                <span>All Types</span>
               </div>
               <div className="flex gap-2">
                 <input
@@ -178,6 +179,16 @@ export default function Search() {
                   checked={sidebarData.type === "sale"}
                 />
                 <span>Sale</span>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="hotel"
+                  className="w-5"
+                  onChange={handleSearch}
+                  checked={sidebarData.type === "hotel"}
+                />
+                <span>Hotel</span>
               </div>
               <div className="flex gap-2">
                 <input

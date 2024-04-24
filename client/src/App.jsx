@@ -32,7 +32,7 @@ export default function App() {
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/listing/:listingId" element={<Listing />} />
         <Route path="/booking/:listingId" element={<Bookings />} />
-        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment/:listingId" element={<Payment />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 
         <Route element={<PrivateRoute />}>

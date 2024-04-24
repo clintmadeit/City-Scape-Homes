@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import Footer from "../components/Footer";
+import Payment from "./Payment";
 
 export default function BookingPage() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function BookingPage() {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [hotelRate, setHotelRate] = useState();
 
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
@@ -50,12 +52,22 @@ export default function BookingPage() {
             ? "property"
             : "hotel"
         );
+
+        if (bookingType === "hotel") {
+          if (data.listing.regularPrice) {
+            setHotelRate(data.listing.regularPrice);
+          } else {
+            setHotelRate(data.listing.discountedPrice);
+          }
+        }
+
+        console.log(hotelRate);
       } catch (error) {
         setError(error.message);
       }
     };
     fetchListing();
-  }, [params.listingId]);
+  }, [params.listingId, bookingType, hotelRate]);
 
   if (!currentUser) {
     return <Navigate to="/sign-in" />;
@@ -105,7 +117,6 @@ export default function BookingPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${currentUser.token}`,
         },
         body: JSON.stringify(bookingDetails),
       });
@@ -123,7 +134,7 @@ export default function BookingPage() {
       }
 
       setLoading(false);
-      navigate("/booking-success");
+      navigate("/payment/:listingId");
     } catch (error) {
       setError(error.message);
       setLoading(false);

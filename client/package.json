@@ -27,7 +27,8 @@
     "react-spinners": "^0.13.8",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
-    "swiper": "^11.0.7"
+    "swiper": "^11.0.7",
+    "timepicker": "^1.14.1"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",

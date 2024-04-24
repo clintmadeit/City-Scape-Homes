@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Navigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns"; // Import format function from date-fns
 
 import Footer from "../components/Footer";
-import Payment from "./Payment";
 
 export default function BookingPage() {
   const navigate = useNavigate();
   const [bookingType, setBookingType] = useState(null);
+  const [viewDate, setViewDate] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [viewDate, setViewDate] = useState(new Date());
+  const [selectedTime, setSelectedTime] = useState(""); // New state to store selected time
   const [selectedPackage, setSelectedPackage] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [hotelRate, setHotelRate] = useState();
+  const [listingTitle, setListingTitle] = useState("");
 
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
+
   const packagePrices = {
     BASIC: 1500,
     STANDARD: 3000,
@@ -37,6 +39,7 @@ export default function BookingPage() {
   };
 
   useEffect(() => {
+    // Fetch listing details and set booking type
     const fetchListing = async () => {
       try {
         if (!params.listingId) {
@@ -46,28 +49,20 @@ export default function BookingPage() {
         const res = await fetch(`/api/listing/get/${params.listingId}`);
         const data = await res.json();
         const listingType = data.listing.type;
+        const listingTitle = data.listing.title;
+        setListingTitle(listingTitle);
 
         setBookingType(
           listingType === "rent" || listingType === "sale"
             ? "property"
             : "hotel"
         );
-
-        if (bookingType === "hotel") {
-          if (data.listing.regularPrice) {
-            setHotelRate(data.listing.regularPrice);
-          } else {
-            setHotelRate(data.listing.discountedPrice);
-          }
-        }
-
-        console.log(hotelRate);
       } catch (error) {
         setError(error.message);
       }
     };
     fetchListing();
-  }, [params.listingId, bookingType, hotelRate]);
+  }, [params.listingId, bookingType]);
 
   if (!currentUser) {
     return <Navigate to="/sign-in" />;
@@ -77,6 +72,10 @@ export default function BookingPage() {
     try {
       setLoading(true);
 
+      // Validate selected date and time
+      if (!viewDate || !selectedTime) {
+        throw new Error("Please select both date and time to proceed.");
+      }
       if (bookingType === "property" && new Date(viewDate) < new Date()) {
         setError("Viewing date cannot be in the past.");
         setLoading(false);
@@ -87,24 +86,38 @@ export default function BookingPage() {
       let bookingDetails = {
         userId: currentUser._id,
         listingId: params.listingId,
+        listingTitle: listingTitle,
         bookingType,
         paymentMethod,
       };
 
       if (bookingType === "property") {
+        let hoursMinutes = selectedTime.split(":");
+        let date = new Date(viewDate);
+        date.setHours(hoursMinutes[0], hoursMinutes[1]);
+
+        let formattedTime = date.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        });
+
         bookingDetails = {
           ...bookingDetails,
-          viewingDate: viewDate,
+          viewDateTime:
+            format(viewDate, "yyyy-MM-dd") + " " + "At" + " " + formattedTime,
           viewingPackage: selectedPackage,
-          price: packagePrices[selectedPackage],
+          PackageAmount: packagePrices[selectedPackage],
         };
-      } else if (bookingType === "hotel") {
+      } else {
         bookingDetails = {
           ...bookingDetails,
-          checkInDate: startDate,
-          checkOutDate: endDate,
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
         };
       }
+
+      console.log(bookingDetails);
 
       // Determine the booking API endpoint based on the booking type
       const bookingApiEndpoint =
@@ -121,6 +134,10 @@ export default function BookingPage() {
         body: JSON.stringify(bookingDetails),
       });
 
+      if (!response.ok) {
+        const responseData = await response.json();
+        throw new Error(responseData.message || "Booking failed");
+      }
       // Check if the request was successful
       if (!response.ok) {
         const responseData = await response.json();
@@ -134,7 +151,7 @@ export default function BookingPage() {
       }
 
       setLoading(false);
-      navigate("/payment/:listingId");
+      navigate(`/payment/${params.listingId}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -150,18 +167,28 @@ export default function BookingPage() {
         {bookingType === "property" && (
           <div className="mt-5 mx-auto bg-white rounded-lg p-6 md:p-8 max-w-2xl">
             <h2 className="text-xl text-egyptianblue font-semibold mb-3">
-              Select Viewing Date
+              Select Viewing Date and Time
             </h2>
             <DatePicker
               selected={viewDate}
-              onChange={(date) => setViewDate(date)}
+              onChange={(date) => {
+                setViewDate(date);
+                setSelectedTime(date.getHours() + ":" + date.getMinutes());
+              }}
               minDate={new Date()}
               maxDate={new Date(new Date().setMonth(new Date().getMonth() + 2))}
               className="w-full p-2 border rounded"
+              showTimeSelect // Enable time selection
+              timeIntervals={30} // Set time interval to 30 minutes
+              filterTime={(time) => {
+                const hours = time.getHours();
+                return hours >= 9 && hours < 18; // Only allow times between 9 AM and 6 PM
+              }}
+              dateFormat="MMMM d, yyyy h:mm aa" // Date and time format
             />
             {/* Viewing package selection options */}
             <div className="mt-5 mx-auto bg-white shadow-md rounded-lg p-6 md:p-8 max-w-2xl">
-              <h2 className="text-2xl text-egyptianblue font-semibold mb-5">
+              <h2 className="text-xl text-egyptianblue font-semibold mb-5">
                 Viewing Package
               </h2>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -303,7 +330,7 @@ export default function BookingPage() {
             className="mt-5 w-full bg-egyptianblue text-white font-semibold px-4 py-2 rounded-md hover:bg-neonorange transition-colors duration-200 ease-in-out max-w-2xl mx-auto"
             style={{ fontSize: "1rem" }}
           >
-            {loading ? "Completing..." : "Complete Booking"}
+            {loading ? "Confirming..." : "Continue to Payment"}
           </button>
         </div>
         {error && <p className="text-red-700 mt-3">{error}</p>}

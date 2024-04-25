@@ -3,22 +3,23 @@ import { useNavigate, Navigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns"; // Import format function from date-fns
+import { format } from "date-fns";
 
 import Footer from "../components/Footer";
 
-export default function BookingPage() {
+export default function Bookings() {
   const navigate = useNavigate();
   const [bookingType, setBookingType] = useState(null);
   const [viewDate, setViewDate] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [selectedTime, setSelectedTime] = useState(""); // New state to store selected time
+  const [selectedTime, setSelectedTime] = useState("");
   const [selectedPackage, setSelectedPackage] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [listingTitle, setListingTitle] = useState("");
+  const [hotelRate, setHotelRate] = useState(0);
 
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
@@ -50,7 +51,11 @@ export default function BookingPage() {
         const data = await res.json();
         const listingType = data.listing.type;
         const listingTitle = data.listing.title;
+        const hotelRate = data.listing.discountedPrice
+          ? data.listing.discountedPrice
+          : data.listing.regularPrice;
         setListingTitle(listingTitle);
+        setHotelRate(hotelRate);
 
         setBookingType(
           listingType === "rent" || listingType === "sale"
@@ -64,6 +69,27 @@ export default function BookingPage() {
     fetchListing();
   }, [params.listingId, bookingType]);
 
+  // Function to format the duration of stay
+
+  function formatDuration(duration) {
+    if (duration < 7) {
+      return `${duration} day${duration > 1 ? "s" : ""}`;
+    } else if (duration < 30) {
+      const weeks = Math.floor(duration / 7);
+      return `${weeks} week${weeks > 1 ? "s" : ""}`;
+    } else {
+      const months = Math.floor(duration / 30);
+      return `${months} month${months > 1 ? "s" : ""}`;
+    }
+  }
+
+  // Function to format the date
+
+  function formatDate(dateString) {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  }
+
   if (!currentUser) {
     return <Navigate to="/sign-in" />;
   }
@@ -73,7 +99,7 @@ export default function BookingPage() {
       setLoading(true);
 
       // Validate selected date and time
-      if (!viewDate || !selectedTime) {
+      if (bookingType === "property" && (!viewDate || !selectedTime)) {
         throw new Error("Please select both date and time to proceed.");
       }
       if (bookingType === "property" && new Date(viewDate) < new Date()) {
@@ -88,8 +114,8 @@ export default function BookingPage() {
         listingId: params.listingId,
         listingTitle: listingTitle,
         bookingType,
-        paymentMethod,
       };
+      console.log(params.bookingId);
 
       if (bookingType === "property") {
         let hoursMinutes = selectedTime.split(":");
@@ -102,18 +128,45 @@ export default function BookingPage() {
           hour12: true,
         });
 
+        let formattedPackageAmount = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "KES",
+        }).format(packagePrices[selectedPackage]);
+
         bookingDetails = {
           ...bookingDetails,
           viewDateTime:
             format(viewDate, "yyyy-MM-dd") + " " + "At" + " " + formattedTime,
           viewingPackage: selectedPackage,
-          PackageAmount: packagePrices[selectedPackage],
+          paymentMethod,
+          PackageAmount: formattedPackageAmount,
         };
       } else {
+        const startDateObj = new Date(startDate);
+        const endDateObj = new Date(endDate);
+        const stayDuration = Math.ceil(
+          (endDateObj - startDateObj) / (1000 * 60 * 60 * 24)
+        );
+        const amountDue = hotelRate * stayDuration;
+
+        let formattedHotelRate = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "KES",
+        }).format(hotelRate);
+
+        let formattedAmountDue = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "KES",
+        }).format(amountDue);
+
         bookingDetails = {
           ...bookingDetails,
-          startDate: new Date(startDate),
-          endDate: new Date(endDate),
+          checkIn: formatDate(startDateObj),
+          checkOut: formatDate(endDateObj),
+          hotelRate: formattedHotelRate,
+          stayDuration: formatDuration(stayDuration),
+          paymentMethod,
+          amountDue: formattedAmountDue,
         };
       }
 
@@ -151,7 +204,7 @@ export default function BookingPage() {
       }
 
       setLoading(false);
-      navigate(`/payment/${params.listingId}`);
+      navigate(`/payment/${params.bookingId}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);

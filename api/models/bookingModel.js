@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema(
   {
-    bookingType: {
-      type: String,
-      required: true,
-    },
     userId: {
       type: String,
       ref: "User",
@@ -16,26 +12,75 @@ const bookingSchema = new mongoose.Schema(
       ref: "Listing",
       required: true,
     },
-    viewDate: {
-      type: Date,
-      // required: true,
-    },
-    startDate: {
-      type: Date,
-      // required: true,
-    },
-    endDate: {
-      type: Date,
-      // required: true,
-    },
-    selectedPackage: {
+    bookingType: {
       type: String,
-      // required: true,
+      required: true,
+    },
+    listingTitle: {
+      type: String,
+      required: true,
+    },
+    viewDateTime: {
+      type: String,
+      required: function () {
+        return this.bookingType === "property";
+      },
+    },
+    viewingPackage: {
+      type: String,
+      required: function () {
+        return this.bookingType === "property";
+      },
     },
 
     paymentMethod: {
       type: String,
-      // required: true,
+      required: function () {
+        return this.bookingType === "property";
+      },
+    },
+    PackageAmount: {
+      type: String,
+      required: function () {
+        return this.bookingType === "property";
+      },
+    },
+    checkIn: {
+      type: String,
+      required: function () {
+        return this.bookingType === "hotel";
+      },
+    },
+    checkOut: {
+      type: String,
+      required: function () {
+        return this.bookingType === "hotel";
+      },
+    },
+    hotelRate: {
+      type: String,
+      required: function () {
+        return this.bookingType === "hotel";
+      },
+    },
+    stayDuration: {
+      type: String,
+      required: function () {
+        return this.bookingType === "hotel";
+      },
+    },
+
+    paymentMethod: {
+      type: String,
+      required: function () {
+        return this.bookingType === "hotel";
+      },
+    },
+    amountDue: {
+      type: String,
+      required: function () {
+        return this.bookingType === "hotel";
+      },
     },
     status: {
       type: String,

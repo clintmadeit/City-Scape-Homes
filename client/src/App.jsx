@@ -14,7 +14,7 @@ import ContactUs from "./pages/ContactUs.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import TermsOfUse from "./pages/TermsOfUse.jsx";
 import Unauthorized from "./pages/Unauthorized.jsx";
-import Bookings from "./pages/Bookings.jsx";
+import CreateBooking from "./pages/CreateBooking.jsx";
 import Payment from "./pages/Payment.jsx";
 
 export default function App() {
@@ -31,7 +31,7 @@ export default function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/listing/:listingId" element={<Listing />} />
-        <Route path="/booking/:listingId" element={<Bookings />} />
+        <Route path="/create-booking/:listingId" element={<CreateBooking />} />
         <Route path="/payment/:bookingId" element={<Payment />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 

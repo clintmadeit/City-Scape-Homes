@@ -104,6 +104,9 @@ export const getListings = async (req, res, next) => {
 
     const order = req.query.order || "desc";
 
+    const sortObj = {};
+    sortObj[sort] = order === "asc" ? 1 : -1;
+
     const listings = await Listing.find({
       title: { $regex: searchTerm, $options: "i" },
       offer,
@@ -111,7 +114,7 @@ export const getListings = async (req, res, next) => {
       parking,
       type,
     })
-      .sort({ [sort]: order })
+      .sort(sortObj) // Apply dynamic sort object
       .limit(limit)
       .skip(startIndex);
 

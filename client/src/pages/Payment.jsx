@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export default function Payment() {
-  const params = useParams();
+  const { bookingId } = useParams();
   const [bookingDetails, setBookingDetails] = useState(null);
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
       try {
-        const response = await fetch(`/api/booking/get/${params.bookingId}`);
+        const response = await fetch(`/api/booking/get/${bookingId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch booking details");
         }
@@ -19,7 +19,9 @@ export default function Payment() {
       }
     };
     fetchBookingDetails();
-  }, [params.bookingId]);
+  }, [bookingId]);
+
+  console.log(bookingId);
 
   const handlePayment = () => {
     // Implement payment logic here
@@ -76,11 +78,11 @@ export default function Payment() {
               {new Date(bookingDetails.checkOut).toLocaleDateString()}
             </p>
             <p>
-              <strong>Stay Duration:</strong> {bookingDetails.stayDuration}{" "}
-              night(s)
+              <strong>Hotel Rate:</strong> {bookingDetails.hotelRate}
             </p>
             <p>
-              <strong>Hotel Rate:</strong> {bookingDetails.hotelRate}
+              <strong>Stay Duration:</strong> {bookingDetails.stayDuration}{" "}
+              night(s)
             </p>
             <p>
               <strong>Payment Method:</strong> {bookingDetails.paymentMethod}

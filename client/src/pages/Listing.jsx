@@ -195,7 +195,7 @@ export default function Listing() {
             </div>
             <div className="flex flex-row justify-between sm:space-x-2 mt-4">
               <Link
-                to={`/booking/${listing._id}`}
+                to={`/create-booking/${listing._id}`}
                 className="inline-block bg-egyptianblue text-white font-semibold py-2 px-4 rounded-lg hover:bg-neonorange transition-colors duration-200 ease-in-out text-center"
               >
                 {listing.type === "rent" || listing.type === "sale"

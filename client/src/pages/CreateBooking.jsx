@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Navigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
 
 import Footer from "../components/Footer";
 
-export default function Bookings() {
+export default function CreateBooking() {
   const navigate = useNavigate();
   const [bookingType, setBookingType] = useState(null);
   const [viewDate, setViewDate] = useState(new Date());
@@ -21,7 +20,7 @@ export default function Bookings() {
   const [listingTitle, setListingTitle] = useState("");
   const [hotelRate, setHotelRate] = useState(0);
 
-  const params = useParams();
+  const { listingId, bookingId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
   const packagePrices = {
@@ -34,7 +33,7 @@ export default function Bookings() {
     BASIC:
       "Introducing our Basic Property Showcase Package! For just Ksh. 1500, you will be helped to explore detailed information and physically visit one out of three properties of your choice. Dive into comprehensive property details and take the first step towards finding your dream home. With this package, discovering your ideal property has never been easier or more affordable.",
     STANDARD:
-      "Introducing our exclusive 'Property Preview' package! For just Ksh. 3000, users gain access to a comprehensive showcase of available properties with the flexibility to explore two out of three desired attributes in detail. Whether it's scrutinizing the interior design, assessing the neighborhood amenities, or gauging the property's layout, this package empowers you to make informed decisions before committing. Experience the convenience of virtual tours and detailed descriptions, ensuring every aspect meets your preferences. Say goodbye to uncertainty and hello to confident property hunting with our Property Preview package.",
+      "Introducing our exclusive 'Property Preview' package! For just Ksh. 3000, you gain access to a comprehensive showcase of available properties with the flexibility to explore two out of three desired properties in detail. Whether it's scrutinizing the interior design, assessing the neighborhood amenities, or gauging the property's layout, this package empowers you to make informed decisions before committing. Experience the convenience of virtual tours and detailed descriptions, ensuring every aspect meets your preferences. Say goodbye to uncertainty and hello to confident property hunting with our Property Preview package.",
     PREMIUM:
       "Introducing our premium package, designed to cater to your specific needs! For just Ksh. 5000, this package grants you access to detailed information and physical inspection of any three properties of your choice. Whether you're seeking a cozy apartment, a spacious house, or a commercial space, our package ensures that you get firsthand insights into the properties that pique your interest. With a focus on transparency and convenience, we're here to make your property search experience as seamless as possible.",
   };
@@ -43,11 +42,11 @@ export default function Bookings() {
     // Fetch listing details and set booking type
     const fetchListing = async () => {
       try {
-        if (!params.listingId) {
+        if (!listingId) {
           throw new Error("Listing ID is missing.");
         }
 
-        const res = await fetch(`/api/listing/get/${params.listingId}`);
+        const res = await fetch(`/api/listing/get/${listingId}`);
         const data = await res.json();
         const listingType = data.listing.type;
         const listingTitle = data.listing.title;
@@ -67,7 +66,7 @@ export default function Bookings() {
       }
     };
     fetchListing();
-  }, [params.listingId, bookingType]);
+  }, [listingId, bookingType]);
 
   // Function to format the duration of stay
 
@@ -111,11 +110,11 @@ export default function Bookings() {
       // Prepare the booking details
       let bookingDetails = {
         userId: currentUser._id,
-        listingId: params.listingId,
+        listingId: listingId,
         listingTitle: listingTitle,
         bookingType,
       };
-      console.log(params.bookingId);
+      console.log(bookingId);
 
       if (bookingType === "property") {
         let hoursMinutes = selectedTime.split(":");
@@ -135,8 +134,7 @@ export default function Bookings() {
 
         bookingDetails = {
           ...bookingDetails,
-          viewDateTime:
-            format(viewDate, "yyyy-MM-dd") + " " + "At" + " " + formattedTime,
+          viewDateTime: formatDate(viewDate) + " " + "At" + " " + formattedTime,
           viewingPackage: selectedPackage,
           paymentMethod,
           PackageAmount: formattedPackageAmount,
@@ -204,7 +202,7 @@ export default function Bookings() {
       }
 
       setLoading(false);
-      navigate(`/payment/${params.bookingId}`);
+      navigate(`/payment/${bookingId}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);

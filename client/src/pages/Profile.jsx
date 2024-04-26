@@ -216,14 +216,16 @@ export default function Profile() {
             disabled={loading}
             className="bg-egyptianblue text-white uppercase rounded-lg p-3 cursor-pointer hover:opacity-95 disabled:opacity-80"
           >
-            {loading ? "Loading..." : "Update"}
+            {loading ? "Updating..." : "Update"}
           </button>
-          <Link
-            to={"/create-listing"}
-            className="bg-neonorange text-white text-center uppercase rounded-lg p-3 cursor-pointer hover:opacity-95 disabled:opacity-80"
-          >
-            Create Listing
-          </Link>
+          {currentUser.isAdmin && (
+            <Link
+              to={"/create-listing"}
+              className="bg-neonorange text-white text-center uppercase rounded-lg p-3 cursor-pointer hover:opacity-95 disabled:opacity-80"
+            >
+              Create Listing
+            </Link>
+          )}
         </form>
         <div className="flex justify-between mt-5">
           <span

@@ -16,6 +16,7 @@ import {
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import axios from "axios";
+import { FadeLoader } from "react-spinners";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -73,7 +74,19 @@ export default function Listing() {
 
   return (
     <main>
-      {loading && <p className="text-center my-7 text-2xl">Loading...</p>}
+      {loading && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "75vh",
+            width: "100vw",
+          }}
+        >
+          <FadeLoader color="#f49d19" size={15} />
+        </div>
+      )}
       {error && (
         <p className="text-center my-7 text-2xl">Something went wrong!</p>
       )}
@@ -123,7 +136,11 @@ export default function Listing() {
             </p>
             <div className="flex gap-4">
               <p className="bg-neonorange w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                {listing.type === "rent" ? "For Rent" : "For Sale"}
+                {listing.type === "rent"
+                  ? "For Rent"
+                  : listing.type === "sale"
+                  ? "For Sale"
+                  : "Hotel Room"}
               </p>
               {listing.offer && (
                 <p className="bg-egyptianblue w-full max-w-[200px] text-white text-center p-1 rounded-md">

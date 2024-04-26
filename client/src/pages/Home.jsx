@@ -6,11 +6,14 @@ import { Navigation, Autoplay } from "swiper/modules";
 import SwiperCore from "swiper";
 import ListingCard from "../components/ListingCard";
 import Footer from "../components/Footer";
+import { FadeLoader } from "react-spinners";
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
+  const [hotelListings, setHotelListings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   SwiperCore.use([Navigation]);
   SwiperCore.use([Autoplay]);
@@ -43,13 +46,40 @@ export default function Home() {
         const res = await fetch("/api/listing/get?type=sale&limit=4");
         const data = await res.json();
         setSaleListings(data);
+        fetchHotelListings();
       } catch (error) {
         console.error(error);
+      }
+    };
+    const fetchHotelListings = async () => {
+      try {
+        const res = await fetch("/api/listing/get?type=hotel&limit=4");
+        const data = await res.json();
+        setHotelListings(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchOfferListings();
   }, []);
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <FadeLoader color="#f49d19" loading={loading} size={10} />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -152,6 +182,26 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {saleListings.map((listing) => (
+                <ListingCard key={listing._id} listing={listing} />
+              ))}
+            </div>
+          </div>
+        )}
+        {hotelListings && hotelListings.length > 0 && (
+          <div className="">
+            <div className="my-3">
+              <h2 className="text-2xl font-bold text-egyptianblue">
+                Recent hotel listings
+              </h2>
+              <Link
+                className="text-egyptianblue text-sm hover:text-neonorange"
+                to={"/search?type=sale"}
+              >
+                Show more hotel listings
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {hotelListings.map((listing) => (
                 <ListingCard key={listing._id} listing={listing} />
               ))}
             </div>

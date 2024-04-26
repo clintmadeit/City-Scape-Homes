@@ -5,15 +5,17 @@ import { FadeLoader } from "react-spinners";
 export default function Payment() {
   const { bookingId } = useParams();
   const [bookingDetails, setBookingDetails] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
-      setLoading(true);
       try {
         if (!bookingId) {
           throw new Error("Booking ID is missing.");
         }
+
+        setLoading(true);
 
         const response = await fetch(`/api/booking/get/${bookingId}`);
         if (!response.ok) {
@@ -26,7 +28,7 @@ export default function Payment() {
         setBookingDetails(data);
       } catch (error) {
         console.error("Error fetching booking details:", error.message);
-        setBookingDetails(null);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -40,8 +42,8 @@ export default function Payment() {
     alert("Payment initiated. Please proceed with payment.");
   };
 
-  {
-    loading && (
+  if (loading) {
+    return (
       <div
         style={{
           display: "flex",
@@ -56,7 +58,7 @@ export default function Payment() {
     );
   }
 
-  if (!bookingId) {
+  if (error) {
     return (
       <div
         style={{
@@ -67,7 +69,7 @@ export default function Payment() {
           width: "100vw",
         }}
       >
-        Booking ID Not Found!
+        {error}
       </div>
     );
   }

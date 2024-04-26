@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css/bundle";
-import { Navigation, Autoplay } from "swiper/modules";
-import SwiperCore from "swiper";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import { Navigation, Autoplay, EffectFade } from "swiper/modules";
+import SwiperCore from "swiper/core";
 import ListingCard from "../components/ListingCard";
 import Footer from "../components/Footer";
 import { FadeLoader } from "react-spinners";
+
+SwiperCore.use([Navigation, Autoplay, EffectFade]);
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -14,9 +17,6 @@ export default function Home() {
   const [rentListings, setRentListings] = useState([]);
   const [hotelListings, setHotelListings] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  SwiperCore.use([Navigation]);
-  SwiperCore.use([Autoplay]);
 
   useEffect(() => {
     const fetchOfferListings = async () => {
@@ -107,7 +107,12 @@ export default function Home() {
 
       <Swiper
         navigation
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        effect="fade" // Set fade effect
+        fadeEffect={{ crossFade: true }}
       >
         {offerListings &&
           offerListings.length > 0 &&

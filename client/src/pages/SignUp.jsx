@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import OAuth from "../components/OAuth";
-import Footer from "../components/Footer";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});

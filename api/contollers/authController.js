@@ -1,7 +1,21 @@
 import User from "../models/userModel.js";
 import bcryptjs from "bcryptjs";
+import nodemailer from "nodemailer";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+let transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 export const signup = async (req, res, next) => {
   const { userName, email, password } = req.body;
@@ -9,6 +23,25 @@ export const signup = async (req, res, next) => {
   const newUser = new User({ userName, email, password: hashedPassword });
   try {
     await newUser.save();
+
+    // Send email confirmation
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d", // Token expires in 1 day
+    });
+    const confirmationLink = `${req.protocol}://${req.get(
+      "host"
+    )}/confirm-email/${token}`;
+
+    await transporter.sendMail({
+      from: `"Cityscape Homes" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "Email Confirmation",
+      html: `
+        <p>Please confirm your email address by clicking the link below:</p>
+        <p><a href="${confirmationLink}">${confirmationLink}</a></p>
+      `,
+    });
+
     res.status(201).json("User created successfully!");
   } catch (error) {
     next(error);

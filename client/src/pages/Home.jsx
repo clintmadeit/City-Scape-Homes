@@ -197,7 +197,7 @@ export default function Home() {
                 className="text-egyptianblue text-sm hover:text-neonorange"
                 to={"/search?type=sale"}
               >
-                Show more hotel listings
+                Show more hotels
               </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

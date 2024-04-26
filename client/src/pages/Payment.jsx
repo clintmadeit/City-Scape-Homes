@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { FadeLoader } from "react-spinners";
 
 export default function Payment() {
   const { bookingId } = useParams();
   const [bookingDetails, setBookingDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
+      setLoading(true);
       try {
         if (!bookingId) {
           throw new Error("Booking ID is missing.");
@@ -23,6 +26,9 @@ export default function Payment() {
         setBookingDetails(data);
       } catch (error) {
         console.error("Error fetching booking details:", error.message);
+        setBookingDetails(null);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,8 +40,52 @@ export default function Payment() {
     alert("Payment initiated. Please proceed with payment.");
   };
 
+  {
+    loading && (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "75vh",
+          width: "100vw",
+        }}
+      >
+        <FadeLoader color="#f49d19" size={15} />
+      </div>
+    );
+  }
+
+  if (!bookingId) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "75vh",
+          width: "100vw",
+        }}
+      >
+        Booking ID Not Found!
+      </div>
+    );
+  }
+
   if (!bookingDetails) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "75vh",
+          width: "100vw",
+        }}
+      >
+        Booking Details Not Found!
+      </div>
+    );
   }
 
   return (

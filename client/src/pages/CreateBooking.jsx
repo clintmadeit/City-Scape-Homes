@@ -20,7 +20,7 @@ export default function CreateBooking() {
   const [listingTitle, setListingTitle] = useState("");
   const [hotelRate, setHotelRate] = useState(0);
 
-  const { listingId, bookingId } = useParams();
+  const { listingId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
   const packagePrices = {
@@ -114,7 +114,6 @@ export default function CreateBooking() {
         listingTitle: listingTitle,
         bookingType,
       };
-      console.log(bookingId);
 
       if (bookingType === "property") {
         let hoursMinutes = selectedTime.split(":");
@@ -168,8 +167,6 @@ export default function CreateBooking() {
         };
       }
 
-      console.log(bookingDetails);
-
       // Determine the booking API endpoint based on the booking type
       const bookingApiEndpoint =
         bookingType === "hotel"
@@ -201,8 +198,13 @@ export default function CreateBooking() {
         throw new Error("Please select a payment method to proceed");
       }
 
+      const data = await response.json();
       setLoading(false);
-      navigate(`/payment/${bookingId}`);
+      if (data.success === false) {
+        setError(data.message);
+      }
+      setLoading(false);
+      navigate(`/payment/${data._id}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);

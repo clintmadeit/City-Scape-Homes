@@ -92,7 +92,7 @@ export default function Payment() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white rounded-lg shadow-md overflow-hidden w-full max-w-xl">
         <div className="px-6 py-8">
-          <div className="px-6 py-4 border-b border-gray-200 shadow-md">
+          <div className="px-6 py-4 border-b border-gray-200 shadow-sm">
             <div className="flex justify-between items-center mb-4">
               <div className="text-2xl font-semibold text-egyptianblue">
                 Booking Details

@@ -34,7 +34,7 @@ app.listen(3000, () => {
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
-app.use("/api/booking/", bookingRouter);
+app.use("/api/booking", bookingRouter);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 

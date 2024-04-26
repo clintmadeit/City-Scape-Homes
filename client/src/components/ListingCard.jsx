@@ -1,7 +1,5 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { MdLocationOn } from "react-icons/md";
 
 function formatNumber(num) {
@@ -42,7 +40,11 @@ export default function ListingCard({ listing }) {
             {formatNumber(
               listing.offer ? listing.discountedPrice : listing.regularPrice
             )}
-            {listing.type === "rent" && " / month"}
+            {listing.type === "rent"
+              ? " / month"
+              : listing.type === "hotel"
+              ? " / stay"
+              : ""}
           </p>
           <div className="text-neonorange flex gap-4">
             <div className="font-bold text-xs">

@@ -30,7 +30,7 @@ export const signup = async (req, res, next) => {
     });
     const confirmationLink = `${req.protocol}://${req.get(
       "host"
-    )}/confirm-email/${token}`;
+    )}/api/confirm-email/${token}`;
 
     await transporter.sendMail({
       from: `"Cityscape Homes" <${process.env.EMAIL_USER}>`,
@@ -42,7 +42,33 @@ export const signup = async (req, res, next) => {
       `,
     });
 
-    res.status(201).json("User created successfully!");
+    res
+      .status(201)
+      .json("Confirmation link sent to your email! Please confrim to sign in.");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const confirmEmail = async (req, res, next) => {
+  const token = req.params.token;
+
+  try {
+    // Verify token
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedToken.userId;
+
+    // Find user by userId and update email confirmation status
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(errorHandler(404, "User not found!"));
+    }
+
+    user.emailConfirmed = true;
+    await user.save();
+
+    // Redirect user to sign-in page
+    res.redirect("/sign-in");
   } catch (error) {
     next(error);
   }
@@ -62,6 +88,16 @@ export const signin = async (req, res, next) => {
   try {
     const validUser = await User.findOne({ email });
     if (!validUser) return next(errorHandler(404, "Invalid credentials!"));
+
+    // Check if email is confirmed
+    if (!validUser.emailConfirmed) {
+      return next(
+        errorHandler(
+          403,
+          "Email not confirmed! Check your inbox for the confirmation link."
+        )
+      );
+    }
 
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) return next(errorHandler(401, "Invalid credentials!"));

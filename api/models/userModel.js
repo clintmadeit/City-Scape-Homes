@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    emailConfirmed: {
+      type: Boolean,
+      default: false,
+    },
     photo: {
       type: String,
       default:

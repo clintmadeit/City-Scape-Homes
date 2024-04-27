@@ -34,6 +34,9 @@ export default function SignUp() {
       }
       setLoading(false);
       setError(null);
+
+      alert("Confirmation link sent to your email! Please confirm to sign in.");
+
       navigate("/sign-in");
     } catch (error) {
       setLoading(false);

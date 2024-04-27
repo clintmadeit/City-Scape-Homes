@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { deleteUser } from "./userController.js";
 
 dotenv.config();
 
@@ -20,6 +21,10 @@ let transporter = nodemailer.createTransport({
 export const signup = async (req, res, next) => {
   const { userName, email, password } = req.body;
 
+  if (!validateEmail(email)) {
+    return next(errorHandler(400, "Invalid email format!"));
+  }
+
   // check if user already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -27,13 +32,19 @@ export const signup = async (req, res, next) => {
   }
 
   const hashedPassword = bcryptjs.hashSync(password, 12);
-  const newUser = new User({ userName, email, password: hashedPassword });
+  const newUser = new User({
+    userName,
+    email,
+    password: hashedPassword,
+    emailConfirmed: false,
+  });
+
   try {
     await newUser.save();
 
     // Send email confirmation
     const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d", // Token expires in 1 day
+      expiresIn: "30m", // Token expires in 30 minutes
     });
     const confirmationLink = `${req.protocol}://${req.get(
       "host"
@@ -53,37 +64,6 @@ export const signup = async (req, res, next) => {
       .status(201)
       .json("Confirmation link sent to your email! Please confrim to sign in.");
   } catch (error) {
-    next(error);
-  }
-};
-
-export const confirmEmail = async (req, res, next) => {
-  const token = req.params.token;
-
-  try {
-    // Verify token
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decodedToken.userId;
-
-    // Find user by userId and update email confirmation status
-    const user = await User.findById(userId);
-    if (!user) {
-      return next(errorHandler(404, "User not found!"));
-    }
-
-    // update only if emailConfirmed is false
-    if (!user.emailConfirmed) {
-      user.emailConfirmed = true;
-      await user.save();
-    }
-
-    // Redirect user to sign-in page
-    res.redirect("/sign-in");
-  } catch (error) {
-    // handle invalid or expired token
-    if (error instanceof jwt.TokenExpiredError) {
-      return next(errorHandler(400, "Invalid or expired token!"));
-    }
     next(error);
   }
 };
@@ -130,6 +110,12 @@ export const signin = async (req, res, next) => {
 };
 
 export const google = async (req, res, next) => {
+  const { email } = req.body;
+
+  if (!validateEmail(email)) {
+    return next(errorHandler(400, "Invalid email format!"));
+  }
+
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
@@ -174,6 +160,40 @@ export const signOut = (req, res) => {
     res.clearCookie("access_token");
     res.status(200).json("User has been signed out!");
   } catch (error) {
+    next(error);
+  }
+};
+
+export const confirmEmail = async (req, res, next) => {
+  const token = req.params.token;
+
+  try {
+    // Verify token
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedToken.userId;
+
+    // Find user by userId and update email confirmation status
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(errorHandler(404, "User not found!"));
+    }
+
+    // Update email confirmation status
+    user.emailConfirmed = true;
+    await user.save();
+
+    // Redirect user to sign-in page
+    res.redirect("/sign-in");
+  } catch (error) {
+    // handle invalid or expired token
+    if (error instanceof jwt.TokenExpiredError) {
+      const decodedToken = jwt.decode(token);
+      const userId = decodedToken.userId;
+      await deleteUser(userId);
+      return next(errorHandler(400, "Expired token! Please sign up again."));
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      return next(errorHandler(400, "Invalid token!"));
+    }
     next(error);
   }
 };

@@ -12,6 +12,7 @@ const router = express.Router();
 router.post("/signup", signup);
 router.post("/signin", signin);
 router.get("/confirm-email/:token", confirmEmail);
+router.put("/confirm-email/:token", confirmEmail);
 router.post("/google", google);
 router.get("/signout", signOut);
 

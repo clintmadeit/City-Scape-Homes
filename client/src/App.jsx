@@ -16,6 +16,7 @@ import TermsOfUse from "./pages/TermsOfUse.jsx";
 import Unauthorized from "./pages/Unauthorized.jsx";
 import CreateBooking from "./pages/CreateBooking.jsx";
 import Payment from "./pages/Payment.jsx";
+import EmailConfirmation from "./pages/EmailConfirmation.jsx";
 
 export default function App() {
   return (
@@ -23,8 +24,9 @@ export default function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/confirm-email/:token" element={<EmailConfirmation />} />
+        <Route path="/sign-in" element={<SignIn />} />
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />} />
         <Route path="/contact-us" element={<ContactUs />} />

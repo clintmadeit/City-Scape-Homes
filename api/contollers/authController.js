@@ -30,7 +30,7 @@ export const signup = async (req, res, next) => {
     });
     const confirmationLink = `${req.protocol}://${req.get(
       "host"
-    )}/api/confirm-email/${token}`;
+    )}/confirm-email/${token}`;
 
     await transporter.sendMail({
       from: `"Cityscape Homes" <${process.env.EMAIL_USER}>`,

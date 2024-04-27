@@ -19,6 +19,13 @@ let transporter = nodemailer.createTransport({
 
 export const signup = async (req, res, next) => {
   const { userName, email, password } = req.body;
+
+  // check if user already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return next(errorHandler(400, "User already exists!"));
+  }
+
   const hashedPassword = bcryptjs.hashSync(password, 12);
   const newUser = new User({ userName, email, password: hashedPassword });
   try {
@@ -64,12 +71,19 @@ export const confirmEmail = async (req, res, next) => {
       return next(errorHandler(404, "User not found!"));
     }
 
-    user.emailConfirmed = true;
-    await user.save();
+    // update only if emailConfirmed is false
+    if (!user.emailConfirmed) {
+      user.emailConfirmed = true;
+      await user.save();
+    }
 
     // Redirect user to sign-in page
     res.redirect("/sign-in");
   } catch (error) {
+    // handle invalid or expired token
+    if (error instanceof jwt.TokenExpiredError) {
+      return next(errorHandler(400, "Invalid or expired token!"));
+    }
     next(error);
   }
 };

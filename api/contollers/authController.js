@@ -68,6 +68,40 @@ export const signup = async (req, res, next) => {
   }
 };
 
+export const confirmEmail = async (req, res, next) => {
+  const token = req.params.token;
+
+  try {
+    // Verify token
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedToken.userId;
+
+    // Find user by userId and update email confirmation status
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(errorHandler(404, "User not found!"));
+    }
+
+    // Update email confirmation status
+    user.emailConfirmed = true;
+    await user.save();
+
+    // Redirect user to sign-in page
+    res.redirect("/sign-in");
+  } catch (error) {
+    // handle invalid or expired token
+    if (error instanceof jwt.TokenExpiredError) {
+      const decodedToken = jwt.decode(token);
+      const userId = decodedToken.userId;
+      await deleteUser(userId);
+      return next(errorHandler(400, "Expired token! Please sign up again."));
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      return next(errorHandler(400, "Invalid token!"));
+    }
+    next(error);
+  }
+};
+
 function validateEmail(email) {
   const re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -160,40 +194,6 @@ export const signOut = (req, res) => {
     res.clearCookie("access_token");
     res.status(200).json("User has been signed out!");
   } catch (error) {
-    next(error);
-  }
-};
-
-export const confirmEmail = async (req, res, next) => {
-  const token = req.params.token;
-
-  try {
-    // Verify token
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decodedToken.userId;
-
-    // Find user by userId and update email confirmation status
-    const user = await User.findById(userId);
-    if (!user) {
-      return next(errorHandler(404, "User not found!"));
-    }
-
-    // Update email confirmation status
-    user.emailConfirmed = true;
-    await user.save();
-
-    // Redirect user to sign-in page
-    res.redirect("/sign-in");
-  } catch (error) {
-    // handle invalid or expired token
-    if (error instanceof jwt.TokenExpiredError) {
-      const decodedToken = jwt.decode(token);
-      const userId = decodedToken.userId;
-      await deleteUser(userId);
-      return next(errorHandler(400, "Expired token! Please sign up again."));
-    } else if (error instanceof jwt.JsonWebTokenError) {
-      return next(errorHandler(400, "Invalid token!"));
-    }
     next(error);
   }
 };

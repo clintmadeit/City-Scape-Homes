@@ -1,6 +1,7 @@
 // EmailConfirmation.jsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import "../index.css";
 
 const EmailConfirmation = () => {
   const { token } = useParams();
@@ -35,10 +36,10 @@ const EmailConfirmation = () => {
   }
 
   return (
-    <div>
-      {error && <div>Error: {error}</div>}
+    <div className="centered-content">
+      {error && <div className="error-message">Error: {error}</div>}
       {success && (
-        <div>
+        <div className="success-message">
           <p>Email confirmed successfully!</p>
           <p>
             You can now <Link to="/sign-in">sign in</Link> to your account.

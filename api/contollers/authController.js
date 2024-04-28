@@ -60,9 +60,6 @@ export const signup = async (req, res, next) => {
       `,
     });
 
-    console.log("Email sent: %s", confirmationLink);
-    console.log("T0ken: ", token);
-
     res.status(201).json("Confirmation link sent to your email!");
   } catch (error) {
     next(error);

@@ -32,7 +32,7 @@ const EmailConfirmation = () => {
   }, [token]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="centered-content">Loading...</div>;
   }
 
   return (

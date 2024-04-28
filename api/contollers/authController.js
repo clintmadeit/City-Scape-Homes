@@ -60,9 +60,10 @@ export const signup = async (req, res, next) => {
       `,
     });
 
-    res
-      .status(201)
-      .json("Confirmation link sent to your email! Please confrim to sign in.");
+    console.log("Email sent: %s", confirmationLink);
+    console.log("T0ken: ", token);
+
+    res.status(201).json("Confirmation link sent to your email!");
   } catch (error) {
     next(error);
   }
@@ -70,6 +71,8 @@ export const signup = async (req, res, next) => {
 
 export const confirmEmail = async (req, res, next) => {
   const token = req.params.token;
+
+  console.log("TokenForConfirmation: ", token);
 
   try {
     // Verify token
@@ -87,7 +90,7 @@ export const confirmEmail = async (req, res, next) => {
     await user.save();
 
     // Redirect user to sign-in page
-    res.redirect("/sign-in");
+    res.redirect("/confirm-email/:token");
   } catch (error) {
     // handle invalid or expired token
     if (error instanceof jwt.TokenExpiredError) {
@@ -99,6 +102,7 @@ export const confirmEmail = async (req, res, next) => {
       return next(errorHandler(400, "Invalid token!"));
     }
     next(error);
+    console.log(error);
   }
 };
 

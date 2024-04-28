@@ -25,7 +25,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/email-confirm/:token" element={<EmailConfirmation />} />
+        <Route path="/confirm-email/:token" element={<EmailConfirmation />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />} />

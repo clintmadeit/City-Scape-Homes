@@ -75,8 +75,6 @@ export const signup = async (req, res, next) => {
 export const confirmEmail = async (req, res, next) => {
   const token = req.params.token;
 
-  console.log("TokenForConfirmation: ", token);
-
   try {
     // Verify token
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
@@ -92,7 +90,7 @@ export const confirmEmail = async (req, res, next) => {
     user.emailConfirmed = true;
     await user.save();
 
-    // Redirect user to sign-in page
+    // Redirect user to email confirmation page
     res.redirect(`/confirm-email/${token}`);
   } catch (error) {
     // handle invalid or expired token

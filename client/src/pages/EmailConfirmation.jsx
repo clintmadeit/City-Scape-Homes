@@ -1,4 +1,3 @@
-// EmailConfirmation.jsx
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import "../index.css";
@@ -12,16 +11,16 @@ const EmailConfirmation = () => {
   useEffect(() => {
     const confirmEmail = async () => {
       try {
-        const response = await fetch(`/api/auth/confirm-email/${token}`, {
-          method: "GET",
-        });
-        const data = await response.json();
+        const response = await fetch(`/api/auth/confirm-email/${token}`);
         if (response.ok) {
+          // Email confirmed successfully
           setSuccess(true);
         } else {
-          setError(data.message);
+          // Error confirming email
+          setError("An error occurred. Please try again later.");
         }
       } catch (error) {
+        // Network error
         setError("An error occurred. Please try again later.");
       } finally {
         setLoading(false);
@@ -42,7 +41,13 @@ const EmailConfirmation = () => {
         <div className="success-message">
           <p>Email confirmed successfully!</p>
           <p>
-            You can now <Link to="/sign-in">sign in</Link> to your account.
+            You can now{" "}
+            <Link to="/sign-in">
+              <span className="text-egyptianblue hover:text-neonorange underline">
+                sign in
+              </span>
+            </Link>{" "}
+            to your account.
           </p>
         </div>
       )}

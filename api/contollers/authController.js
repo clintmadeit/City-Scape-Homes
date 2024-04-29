@@ -18,6 +18,12 @@ let transporter = nodemailer.createTransport({
   },
 });
 
+function validateEmail(email) {
+  const re =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
 export const signup = async (req, res, next) => {
   const { userName, email, password } = req.body;
 
@@ -103,22 +109,25 @@ export const confirmEmail = async (req, res, next) => {
   }
 };
 
-function validateEmail(email) {
-  const re =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
-}
-
 export const signin = async (req, res, next) => {
-  const { email, password } = req.body;
-  if (email && !validateEmail(email)) {
-    return next(errorHandler(400, "Invalid email format!"));
-  }
   try {
-    const validUser = await User.findOne({ email });
-    if (!validUser) return next(errorHandler(404, "Invalid credentials!"));
+    const { identifier, password } = req.body;
 
-    // Check if email is confirmed
+    //check if identifier is email or username
+    const isEmail = validateEmail(identifier);
+    let validUser;
+
+    if (isEmail) {
+      validUser = await User.findOne({ email: identifier });
+    } else {
+      validUser = await User.findOne({ userName: identifier });
+    }
+
+    if (!validUser) {
+      return next(errorHandler(404, "Invalid credentials!"));
+    }
+
+    //check if email is confirmed
     if (!validUser.emailConfirmed) {
       return next(
         errorHandler(
@@ -129,8 +138,9 @@ export const signin = async (req, res, next) => {
     }
 
     const validPassword = bcryptjs.compareSync(password, validUser.password);
-    if (!validPassword) return next(errorHandler(401, "Invalid credentials!"));
-
+    if (!validPassword) {
+      return next(errorHandler(401, "Invalid credentials!"));
+    }
     const token = jwt.sign({ id: validUser.id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = validUser._doc;
     res

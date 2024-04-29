@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link /*useNavigate*/ } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import OAuth from "../components/OAuth";
 
@@ -8,7 +8,7 @@ export default function SignUp() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -37,7 +37,7 @@ export default function SignUp() {
 
       alert("Confirmation link sent to your email! Please confirm to sign in.");
 
-      //navigate("/sign-in");
+      navigate("/sign-in");
     } catch (error) {
       setLoading(false);
       setError(error.message);

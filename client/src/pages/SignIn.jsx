@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,12 +16,23 @@ export default function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    return () => {
+      dispatch(signInFailure(null));
+    };
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.identifier || !formData.password) {
+      dispatch(signInFailure("Please fill in all fields!"));
+      return;
+    }
     try {
       dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
@@ -54,10 +65,11 @@ export default function SignIn() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
-          placeholder="email"
+          placeholder="email or username"
           className="border p-3 rounded-lg focus:outline-none"
-          id="email"
+          id="identifier"
           onChange={handleChange}
+          required
         />
         <div className="relative">
           <input
@@ -66,6 +78,7 @@ export default function SignIn() {
             className="border p-3 rounded-lg focus:outline-none pr-10"
             id="password"
             onChange={handleChange}
+            required
           />
           <span
             className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"

@@ -12,7 +12,7 @@ const EmailConfirmation = () => {
   useEffect(() => {
     const confirmEmail = async () => {
       try {
-        const response = await fetch(`/api/confirm-email/${token}`, {
+        const response = await fetch(`/api/auth/confirm-email/${token}`, {
           method: "GET",
         });
         const data = await response.json();

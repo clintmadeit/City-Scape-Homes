@@ -54,7 +54,7 @@ export const signup = async (req, res, next) => {
     });
     const confirmationLink = `${req.protocol}://${req.get(
       "host"
-    )}/confirm-email/${token}`;
+    )}/api/auth/confirm-email/${token}`;
 
     await transporter.sendMail({
       from: `"Cityscape Homes" <${process.env.EMAIL_USER}>`,
@@ -93,7 +93,7 @@ export const confirmEmail = async (req, res, next) => {
     await user.save();
 
     // Redirect user to sign-in page
-    res.redirect("/confirm-email/:token");
+    res.redirect(`/confirm-email/${token}`);
   } catch (error) {
     // handle invalid or expired token
     if (error instanceof jwt.TokenExpiredError) {

@@ -2,6 +2,8 @@ import bcryptjs from "bcryptjs";
 import User from "../models/userModel.js";
 import { errorHandler } from "../utils/error.js";
 import Listing from "../models/listingModel.js";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
 
 export const test = (req, res) => {
   res.send("API route is properly working!");
@@ -74,4 +76,31 @@ export const getUser = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const nodeMailer = async (req, res) => {
+  const { currentUserEmail, managementEmail, subject, message } = req.body;
+
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD,
+    },
+  });
+
+  let mailOptions = {
+    from: currentUserEmail,
+    to: managementEmail,
+    subject: subject,
+    text: message,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      res.status(500).send(error.message);
+    } else {
+      res.status(200).send("Email sent: " + info.response);
+    }
+  });
 };

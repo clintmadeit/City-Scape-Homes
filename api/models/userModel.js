@@ -35,10 +35,10 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// userSchema.methods.confirmEmail = async function () {
-//   this.emailConfirmed = true;
-//   await this.save();
-// };
+userSchema.methods.confirmEmail = async function () {
+  this.emailConfirmed = true;
+  await this.save();
+};
 
 const User = mongoose.model("User", userSchema);
 

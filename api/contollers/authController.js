@@ -61,8 +61,15 @@ export const signup = async (req, res, next) => {
       to: email,
       subject: "Email Confirmation",
       html: `
-        <p>Please confirm your email address by clicking the link below:</p>
-        <p><a href="${confirmationLink}">${confirmationLink}</a></p>
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+      <h2 style="color: #0e2f4f;">Welcome to Cityscape Homes, ${userName}!</h2>
+      <p>We're excited to have you on board. To get started, please confirm your email address.</p>
+      <div style="margin: 20px 0;">
+        <a href="${confirmationLink}" style="background-color: #f49d19; color: #fff; font-weight: bold; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">Click here to confirm</a>
+      </div>
+      <p>This link is valid for up to 30 minutes before expiry. If you don't confirm now, you may be required to sign up again.</p>
+      <p>Thank you,<br/>The Cityscape Homes Team</p>
+    </div>
       `,
     });
 

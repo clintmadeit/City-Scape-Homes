@@ -123,7 +123,7 @@ export default function Listing() {
             </p>
           )}
           <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
-            <p className="text-2xl text-black font-semibold">
+            <p className="text-2xl text-egyptianblue font-semibold">
               {listing.title} - Ksh{" "}
               {formatNumber(
                 listing.offer ? listing.discountedPrice : listing.regularPrice
@@ -153,7 +153,9 @@ export default function Listing() {
               )}
             </div>
             <p className="text-slate-800">
-              <span className="font-semibold text-black">Description - </span>
+              <span className="font-semibold text-egyptianblue">
+                Description -{" "}
+              </span>
               {listing.description}
             </p>
             <ul className="text-egyptianblue font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
@@ -213,6 +215,7 @@ export default function Listing() {
             <div className="flex flex-row justify-between sm:space-x-2 mt-4">
               <Link
                 to={`/create-booking/${listing._id}`}
+                onClick={() => window.scrollTo(0, 0)}
                 className="inline-block bg-egyptianblue text-white font-semibold py-2 px-4 rounded-lg hover:bg-neonorange transition-colors duration-200 ease-in-out text-center"
               >
                 {listing.type === "rent" || listing.type === "sale"

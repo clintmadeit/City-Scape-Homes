@@ -98,6 +98,11 @@ export default function CreateBooking() {
     try {
       setLoading(true);
 
+      // Set startDate to current date if not provided by the user
+      if (!startDate && bookingType === "hotel") {
+        setStartDate(new Date());
+      }
+
       // Validate selected date and time
       if (bookingType === "property" && (!viewDate || !selectedTime)) {
         throw new Error("Please select both date and time to proceed.");

@@ -167,10 +167,13 @@ export const google = async (req, res, next) => {
   }
 
   try {
-    const user = await User.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email });
     if (user) {
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
       const { password, ...rest } = user._doc;
+      // Ensure emailConfirmed is set to true
+      user.emailConfirmed = true;
+      await user.save();
       res
         .cookie("access_token", token, {
           httpOnly: true,
@@ -189,6 +192,7 @@ export const google = async (req, res, next) => {
         email: req.body.email,
         password: hashedPassword,
         photo: req.body.photo,
+        emailConfirmed: true, // Set emailConfirmed to true for new users
       });
       await newUser.save();
       const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET);

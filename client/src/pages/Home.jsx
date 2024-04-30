@@ -200,7 +200,7 @@ export default function Home() {
               </h2>
               <Link
                 className="text-egyptianblue text-sm hover:text-neonorange"
-                to={"/search?type=sale"}
+                to={"/search?type=hotel"}
               >
                 Show more hotels
               </Link>

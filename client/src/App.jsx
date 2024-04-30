@@ -17,6 +17,8 @@ import Unauthorized from "./pages/Unauthorized.jsx";
 import CreateBooking from "./pages/CreateBooking.jsx";
 import Payment from "./pages/Payment.jsx";
 import EmailConfirmation from "./pages/EmailConfirmation.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
+import UpdatePassword from "./pages/UpdatePassword.jsx";
 
 export default function App() {
   return (
@@ -36,6 +38,8 @@ export default function App() {
         <Route path="/create-booking/:listingId" element={<CreateBooking />} />
         <Route path="/payment/:bookingId" element={<Payment />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/update-password" element={<UpdatePassword />} />
 
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />

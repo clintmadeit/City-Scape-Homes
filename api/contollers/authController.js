@@ -217,3 +217,60 @@ export const signOut = (req, res) => {
     next(error);
   }
 };
+
+// Password reset request
+export const requestPasswordReset = async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(errorHandler(404, "User not found!"));
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    const resetLink = `${req.protocol}://${req.get(
+      "host"
+    )}/api/auth/reset-password/${token}`;
+
+    await transporter.sendMail({
+      from: `"Cityscape Homes" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "Password Reset",
+      html: `
+      <div style="background-color: #f8f9fa; padding: 20px; font-family: Arial, sans-serif;">
+      <h2 style="color: #0e2f4f;">Password Reset</h2>
+      <p style="color: #6c757d;">You requested for a password reset. Click the button below to reset your password.</p>
+      <a href="${resetLink}" style="background-color: #f49d19; color: #fff; text-decoration: none; padding: 10px 20px; margin-top: 15px; display: inline-block; border-radius: 5px;">Reset Password</a>
+    </div>
+      `,
+    });
+
+    res.status(200).json("Password reset link sent to your email!");
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Password update
+export const updatePassword = async (req, res, next) => {
+  const { token, newPassword, confirmPassword } = req.body;
+
+  if (newPassword !== confirmPassword) {
+    return next(errorHandler(400, "Passwords do not match!"));
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const hashedPassword = await bcryptjs.hash(newPassword, 12);
+
+    await User.findByIdAndUpdate(decoded.id, { password: hashedPassword });
+
+    res.status(200).json("Password updated successfully!");
+  } catch (error) {
+    next(error);
+  }
+};

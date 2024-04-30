@@ -17,6 +17,7 @@ import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { FadeLoader } from "react-spinners";
+import { MdHotelClass } from "react-icons/md";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -159,6 +160,14 @@ export default function Listing() {
               {listing.description}
             </p>
             <ul className="text-egyptianblue font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
+              <li className="flex items-center gap-1 whitespace-nowrap">
+                {listing.type === "hotel" && (
+                  <div className="flex items-center gap-1 whitespace-nowrap">
+                    <MdHotelClass className="text-lg" />
+                    {listing.roomClass && `${listing.roomClass} `}
+                  </div>
+                )}
+              </li>
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaBed className="text-lg" />
                 {listing.bedrooms > 1
@@ -171,15 +180,21 @@ export default function Listing() {
                   ? `${listing.bathrooms} baths `
                   : `${listing.bathrooms} bath `}
               </li>
-              <li className="flex items-center gap-1 whitespace-nowrap ">
-                <FaParking className="text-lg" />
-                {listing.parking ? "Parking spot" : "No Parking"}
-              </li>
-              <li className="flex items-center gap-1 whitespace-nowrap ">
-                <FaChair className="text-lg" />
-                {listing.furnished ? "Furnished" : "Unfurnished"}
-              </li>
+              {listing.type === "rent" ||
+                (listing.type === "sale" && (
+                  <>
+                    <li className="flex items-center gap-1 whitespace-nowrap ">
+                      <FaParking className="text-lg" />
+                      {listing.parking ? "Parking spot" : "No Parking"}
+                    </li>
+                    <li className="flex items-center gap-1 whitespace-nowrap ">
+                      <FaChair className="text-lg" />
+                      {listing.furnished ? "Furnished" : "Unfurnished"}
+                    </li>
+                  </>
+                ))}
             </ul>
+
             <div className="mt-4">
               <p className="text-gray-700 text-xs sm:text-sm font-semibold">
                 This logic helps you determine the estimate distance from your

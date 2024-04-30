@@ -19,6 +19,7 @@ export default function CreateBooking() {
   const [loading, setLoading] = useState(false);
   const [listingTitle, setListingTitle] = useState("");
   const [hotelRate, setHotelRate] = useState(0);
+  const [reservations, setReservations] = useState(1);
 
   const { listingId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
@@ -144,7 +145,7 @@ export default function CreateBooking() {
         const stayDuration = Math.ceil(
           (endDateObj - startDateObj) / (1000 * 60 * 60 * 24)
         );
-        const amountDue = hotelRate * stayDuration;
+        const amountDue = hotelRate * reservations * stayDuration;
 
         let formattedHotelRate = new Intl.NumberFormat("en-US", {
           style: "currency",
@@ -163,6 +164,7 @@ export default function CreateBooking() {
           hotelRate: formattedHotelRate,
           stayDuration: formatDuration(stayDuration),
           paymentMethod,
+          reservationsMade: reservations,
           amountDue: formattedAmountDue,
         };
       }
@@ -297,6 +299,22 @@ export default function CreateBooking() {
               minDate={startDate}
               className="w-full p-2 border rounded mt-3"
             />
+            <div className="mt-5 mx-auto">
+              <label
+                htmlFor="reservations"
+                className="text-lg text-egyptianblue font-semibold mb-5"
+              >
+                Reservations
+              </label>
+              <input
+                type="number"
+                id="reservations"
+                value={reservations}
+                onChange={(e) => setReservations(e.target.value)}
+                min="1"
+                className="w-full p-2 border rounded mt-3"
+              />
+            </div>
           </div>
         )}
         <div className="mt-5 mx-auto bg-white shadow-md rounded-lg p-6 md:p-8 max-w-2xl">

@@ -63,6 +63,12 @@ const bookingSchema = new mongoose.Schema(
         return this.bookingType === "hotel";
       },
     },
+    reservationsMade: {
+      type: Number,
+      required: function () {
+        return this.bookingType === "hotel";
+      },
+    },
     stayDuration: {
       type: String,
       required: function () {

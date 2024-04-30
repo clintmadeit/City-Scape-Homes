@@ -46,6 +46,10 @@ const listingSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    roomClass: {
+      type: String,
+      required: true,
+    },
     imageUrls: {
       type: Array,
       required: true,

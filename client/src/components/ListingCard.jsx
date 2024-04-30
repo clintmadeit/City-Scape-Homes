@@ -47,6 +47,11 @@ export default function ListingCard({ listing }) {
               : ""}
           </p>
           <div className="text-neonorange flex gap-4">
+            {listing.type === "hotel" && (
+              <div className="font-bold text-xs">
+                {listing.roomClass && `${listing.roomClass} `}
+              </div>
+            )}
             <div className="font-bold text-xs">
               {listing.bedrooms > 1
                 ? `${listing.bedrooms} beds `

@@ -8,7 +8,6 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import Footer from "../components/Footer";
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -29,6 +28,7 @@ export default function CreateListing() {
     offer: false,
     parking: false,
     furnished: false,
+    roomClass: "",
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -110,7 +110,11 @@ export default function CreateListing() {
   };
 
   const handleChange = (e) => {
-    if (e.target.id === "sale" || e.target.id === "rent") {
+    if (
+      e.target.id === "sale" ||
+      e.target.id === "rent" ||
+      e.target.id === "hotel"
+    ) {
       setFormData({
         ...formData,
         type: e.target.id,
@@ -127,6 +131,12 @@ export default function CreateListing() {
         [e.target.id]: e.target.checked,
       });
     }
+    if (e.target.id === "listingType" && e.target.value === "hotel") {
+      setFormData({
+        ...formData,
+        furnished: true,
+      });
+    }
 
     if (
       e.target.type === "number" ||
@@ -136,6 +146,12 @@ export default function CreateListing() {
       setFormData({
         ...formData,
         [e.target.id]: e.target.value,
+      });
+    }
+    if (e.target.id === "roomClass") {
+      setFormData({
+        ...formData,
+        roomClass: e.target.value,
       });
     }
   };
@@ -189,6 +205,24 @@ export default function CreateListing() {
             onChange={handleChange}
             value={formData.title}
           />
+          {formData.type === "hotel" && (
+            <div className="mb-3">
+              <label htmlFor="roomClass" className="form-label">
+                Room Class:
+              </label>
+              <select
+                id="roomClass"
+                value={formData.roomClass}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select room class</option>
+                <option value="standard">Standard</option>
+                <option value="deluxe">Deluxe</option>
+                <option value="suite">Suite</option>
+              </select>
+            </div>
+          )}
           <textarea
             type="text"
             placeholder="Description"

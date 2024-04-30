@@ -152,6 +152,11 @@ export default function Payment() {
             )}
             {bookingDetails.bookingType === "hotel" && (
               <div className="text-sm text-gray-600 mb-2 p-2">
+                <strong>Reservations:</strong> {bookingDetails.reservationsMade}
+              </div>
+            )}
+            {bookingDetails.bookingType === "hotel" && (
+              <div className="text-sm text-gray-600 mb-2 bg-gray-100 p-2">
                 <strong>Amount Due:</strong> {bookingDetails.amountDue}
               </div>
             )}

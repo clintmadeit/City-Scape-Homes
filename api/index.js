@@ -2,6 +2,7 @@ import { log } from "console";
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
 import cookieParser from "cookie-parser";
@@ -22,6 +23,13 @@ mongoose
 const __dirname = path.resolve();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 

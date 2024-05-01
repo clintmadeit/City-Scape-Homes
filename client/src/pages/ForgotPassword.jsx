@@ -15,7 +15,10 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("/api/auth/forgot-password", { email });
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/forgot-password",
+        { email }
+      );
 
       if (response.data.status === "Reset link sent!") {
         alert("A reset password link has been sent to your email.");

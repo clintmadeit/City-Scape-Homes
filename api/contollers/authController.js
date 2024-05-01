@@ -53,9 +53,7 @@ export const signup = async (req, res, next) => {
     const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "30m", // Token expires in 30 minutes
     });
-    const confirmationLink = `${req.protocol}://${req.get(
-      "host"
-    )}/api/auth/confirm-email/${token}`;
+    const confirmationLink = `http://localhost:5173/api/auth/confirm-email/${token}`;
 
     await transporter.sendMail({
       from: `"Cityscape Homes" <${process.env.EMAIL_USER}>`,
@@ -240,9 +238,7 @@ export const forgotPassword = async (req, res, next) => {
     const expiryDate = new Date(expiryTime).toLocaleString(); // Convert to local date and time
 
     // Send the reset link to the user's email...
-    const resetLink = `${req.protocol}://${req.get(
-      "host"
-    )}/api/auth/reset-password/${user._id}/${token}`;
+    const resetLink = `http://localhost:5173/reset-password/${user._id}/${token}`;
 
     transporter.sendMail({
       to: user.email,
@@ -270,10 +266,17 @@ export const resetPassword = async (req, res, next) => {
   const { id, token } = req.params;
   const { password } = req.body;
 
-  try {
-    jwt.verify(token, "jwt_secret_key");
+  console.log(`id: ${id}, token: ${token}, password: ${password}`);
 
-    const hash = await bcryptjs.hash(password, 12);
+  // Check if id, token, and password are provided
+  if (!id || !token || !password) {
+    return next(errorHandler(400, "Missing required parameters!"));
+  }
+
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+
+    const hash = bcryptjs.hashSync(password, 12);
     const user = await User.findByIdAndUpdate(id, { password: hash });
 
     if (!user) {

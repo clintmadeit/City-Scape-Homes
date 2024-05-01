@@ -11,7 +11,9 @@ const EmailConfirmation = () => {
   useEffect(() => {
     const confirmEmail = async () => {
       try {
-        const response = await fetch(`/api/auth/confirm-email/${token}`);
+        const response = await fetch(
+          `http://localhost:3000/api/auth/confirm-email/${token}`
+        );
         if (response.ok) {
           // Email confirmed successfully
           setSuccess(true);
@@ -31,7 +33,7 @@ const EmailConfirmation = () => {
   }, [token]);
 
   if (loading) {
-    return <div className="centered-content">Loading...</div>;
+    return <div className="centered-content">Confirming...</div>;
   }
 
   return (

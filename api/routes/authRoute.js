@@ -18,5 +18,6 @@ router.post("/google", google);
 router.get("/signout", signOut);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:id/:token", resetPassword);
+//router.get("/reset-password/:id/:token", resetPassword);
 
 export default router;

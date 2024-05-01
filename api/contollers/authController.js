@@ -266,8 +266,6 @@ export const resetPassword = async (req, res, next) => {
   const { id, token } = req.params;
   const { password } = req.body;
 
-  console.log(`id: ${id}, token: ${token}, password: ${password}`);
-
   // Check if id, token, and password are provided
   if (!id || !token || !password) {
     return next(errorHandler(400, "Missing required parameters!"));

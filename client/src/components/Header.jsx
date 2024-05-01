@@ -30,7 +30,7 @@ export default function Header() {
       <div className="flex justify-between items-center max-w-6xl mx-auto">
         <Link to={"/"}>
           <img
-            src="../images/city_scape_logo.png"
+            src="../city_scape_logo.png"
             alt="Logo"
             className="logo-img hover: filter hover:brightness-110"
           />

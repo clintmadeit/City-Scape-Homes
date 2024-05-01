@@ -15,7 +15,7 @@ const Footer = () => {
               onClick={() => window.scrollTo(0, 0)}
             >
               <img
-                src="../images/city_scape_logo2.png"
+                src="../city_scape_logo2.png"
                 className="h-8 me-3 hover: filter hover:brightness-110 w-auto"
                 alt="City Scape Homes"
               />

@@ -5,6 +5,7 @@ import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { deleteUser } from "./userController.js";
+import crypto from "crypto";
 
 dotenv.config();
 
@@ -218,59 +219,69 @@ export const signOut = (req, res) => {
   }
 };
 
-// Password reset request
-export const requestPasswordReset = async (req, res, next) => {
-  const { email } = req.body;
-
+export const forgotPassword = async (req, res, next) => {
   try {
+    const { email } = req.body;
     const user = await User.findOne({ email });
+
     if (!user) {
-      return next(errorHandler(404, "User not found!"));
+      return res.status(404).send({ status: "User not found!" });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "30m",
     });
 
+    user.resetPasswordToken = token;
+    const expiryTime = Date.now() + 30 * 60 * 1000; // Token expires in 30 minutes
+    user.resetPasswordExpires = expiryTime;
+    await user.save();
+
+    const expiryDate = new Date(expiryTime).toLocaleString(); // Convert to local date and time
+
+    // Send the reset link to the user's email...
     const resetLink = `${req.protocol}://${req.get(
       "host"
-    )}/api/auth/reset-password/${token}`;
+    )}/api/auth/reset-password/${user._id}/${token}`;
 
-    await transporter.sendMail({
-      from: `"Cityscape Homes" <${process.env.EMAIL_USER}>`,
-      to: email,
+    transporter.sendMail({
+      to: user.email,
       subject: "Password Reset",
       html: `
-      <div style="background-color: #f8f9fa; padding: 20px; font-family: Arial, sans-serif;">
-      <h2 style="color: #0e2f4f;">Password Reset</h2>
-      <p style="color: #6c757d;">You requested for a password reset. Click the button below to reset your password.</p>
-      <a href="${resetLink}" style="background-color: #f49d19; color: #fff; text-decoration: none; padding: 10px 20px; margin-top: 15px; display: inline-block; border-radius: 5px;">Reset Password</a>
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+      <h2 style="color: #0e2f4f;">Hello, ${user.userName}!</h2>
+      <p>You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>
+      <div style="margin: 20px 0;">
+        <a href="${resetLink}" style="background-color: #f49d19; color: #fff; font-weight: bold; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">Click here to reset password</a>
+      </div>
+      <p>This link is valid until ${expiryDate}. If you did not request this, please ignore this email and your password will remain unchanged.</p>
+      <p>Thank you,<br/>The Cityscape Homes Team</p>
     </div>
-      `,
+    `,
     });
 
-    res.status(200).json("Password reset link sent to your email!");
+    res.status(200).send({ status: "Reset link sent!" });
   } catch (error) {
     next(error);
   }
 };
 
-// Password update
-export const updatePassword = async (req, res, next) => {
-  const { token, newPassword, confirmPassword } = req.body;
-
-  if (newPassword !== confirmPassword) {
-    return next(errorHandler(400, "Passwords do not match!"));
-  }
+export const resetPassword = async (req, res, next) => {
+  const { id, token } = req.params;
+  const { password } = req.body;
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const hashedPassword = await bcryptjs.hash(newPassword, 12);
+    jwt.verify(token, "jwt_secret_key");
 
-    await User.findByIdAndUpdate(decoded.id, { password: hashedPassword });
+    const hash = await bcryptjs.hash(password, 12);
+    const user = await User.findByIdAndUpdate(id, { password: hash });
 
-    res.status(200).json("Password updated successfully!");
-  } catch (error) {
-    next(error);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return res.send({ Status: "Success" });
+  } catch (err) {
+    next(err);
   }
 };

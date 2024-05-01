@@ -104,7 +104,7 @@ export default function SignIn() {
         </div>
         <div className="flex gap-2 mt-5">
           <p>Forgot your password?</p>
-          <Link to={"/reset-password"}>
+          <Link to={"/forgot-password"}>
             <span className="text-egyptianblue">Reset</span>
           </Link>
         </div>

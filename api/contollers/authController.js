@@ -238,7 +238,10 @@ export const forgotPassword = async (req, res, next) => {
 
     const expiryDate = new Date(expiryTime).toLocaleString(); // Convert to local date and time
 
-    // Send the reset link to the user's email...
+    // Send the reset link to the user's email...development
+    //const resetLink = `${process.env.CLIENT_BASE_URL}/reset-possword/${user._id}/${token}`
+
+    //Send the reset link to the user's email...production
     const resetLink = `${req.protocol}://${req.get("host")}/reset-password/${
       user._id
     }/${token}`;

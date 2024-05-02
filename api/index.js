@@ -27,6 +27,7 @@ const app = express();
 app.use(
   cors({
     origin: "http://localhost:5173",
+    origin: "https://cityscape-homes.onrender.com",
     credentials: true,
   })
 );

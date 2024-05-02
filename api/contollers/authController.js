@@ -242,9 +242,7 @@ export const forgotPassword = async (req, res, next) => {
     //const resetLink = `${process.env.CLIENT_BASE_URL}/reset-possword/${user._id}/${token}`
 
     //Send the reset link to the user's email...production
-    const resetLink = `${req.protocol}://${req.get("host")}/reset-password/${
-      user._id
-    }/${token}`;
+    const resetLink = `https://cityscape-homes.onrender.com/reset-password/${user._id}/${token}`;
 
     transporter.sendMail({
       to: user.email,

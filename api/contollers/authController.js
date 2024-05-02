@@ -5,7 +5,6 @@ import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { deleteUser } from "./userController.js";
-import crypto from "crypto";
 
 dotenv.config();
 
@@ -53,7 +52,9 @@ export const signup = async (req, res, next) => {
     const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "30m", // Token expires in 30 minutes
     });
-    const confirmationLink = `http://localhost:5173/api/auth/confirm-email/${token}`;
+    const confirmationLink = `${req.protocol}://${req.get(
+      "host"
+    )}/confirm-email/${token}`;
 
     await transporter.sendMail({
       from: `"Cityscape Homes" <${process.env.EMAIL_USER}>`,
@@ -238,7 +239,7 @@ export const forgotPassword = async (req, res, next) => {
     const expiryDate = new Date(expiryTime).toLocaleString(); // Convert to local date and time
 
     // Send the reset link to the user's email...
-    const resetLink = `http://localhost:5173/reset-password/${user._id}/${token}`;
+    const resetLink = `${process.env.CLIENT_BASE_URL}/reset-password/${user._id}/${token}`;
 
     transporter.sendMail({
       to: user.email,

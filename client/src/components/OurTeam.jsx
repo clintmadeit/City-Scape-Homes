@@ -77,7 +77,7 @@ const OurTeam = () => {
           icon: "fa-linkedin",
         },
         { url: "https://twitter.com/clintmadeit", icon: "fa-twitter" },
-        { url: "https://www.facebook.com/clint-dev", icon: "fa-facebook" },
+        { url: "https://www.facebook.com/clint-devs", icon: "fa-facebook" },
       ],
     },
     {
